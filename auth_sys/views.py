@@ -1,35 +1,85 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import views
-from django.views.generic import CreateView, UpdateView, DeleteView
+from django.views.generic import DeleteView
 from django.contrib.auth.models import User
+from django.contrib import messages
 from django.urls import reverse_lazy
-from auth_sys.forms import UserCreationForm, UserUpdateForm
+from auth_sys.forms import UserCreationForm, UserUpdateForm, PortfolioForm
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from auth_sys.models import Portfolio
 
 
 # Create your views here.
-class UserCreationView(CreateView):
-    model = User
+def user_creation(request):
+    if request.method == "POST":
+        user_form = UserCreationForm(request.POST)
+        portfolio_form = PortfolioForm(request.POST, request.FILES)
+        if user_form.is_valid():
+            user = user_form.save(commit=False)
+            if portfolio_form.is_valid():
+                portfolio = portfolio_form.save(commit=False)
+                portfolio.user = user
+                user.save()
+                portfolio.save()
+                login(request, user)
+                return redirect("main_page")
+
+        else:
+            messages.error(request, user_form.errors)
+            messages.error(request, portfolio_form.errors)
+
     template_name = "auth_sys/user_create_form.html"
-    form_class = UserCreationForm
-    success_url = reverse_lazy("main_page")
+    context = {
+        "form": UserCreationForm,
+        "portfolio_form": PortfolioForm,
+    }
+    return render(request,
+                  template_name,
+                  context)
 
-    def form_valid(self, form):
-        valid = super().form_valid(form)
-        user = form.save()
-        login(self.request, user)
-        return valid
 
+@login_required
+def user_update(request, pk):
+    if request.method == "POST":
+        user = User.objects.get(pk=pk)
+        portfolio = Portfolio.objects.get(user=user)
+        user_form = UserUpdateForm(request.POST)
+        portfolio_form = PortfolioForm(request.POST, request.FILES)
+        if user_form.is_valid():
+            new_user = user_form.save(commit=False)
+            if portfolio_form.is_valid():
+                new_portfolio = portfolio_form.save(commit=False)
+                new_portfolio.user = new_user
+                new_user.save()
+                new_portfolio.save()
+                return redirect("main_page")
 
-class UserUpdateView(LoginRequiredMixin, UpdateView):
-    model = User
+        else:
+            messages.error(request, user_form.errors)
+            messages.error(request, portfolio_form.errors)
+
     template_name = "auth_sys/user_update_form.html"
-    form_class = UserUpdateForm
-    success_url = reverse_lazy("main_page")
+    context = {
+        "form": UserCreationForm,
+        "portfolio_form": PortfolioForm,
+    }
+    return render(request,
+                  template_name,
+                  context)
 
-    def get_object(self, queryset=None):
-        return self.request.user
+
+def user_details(request, pk):
+    user = User.objects.get(pk=pk)
+    portfolio = Portfolio.objects.get(user=user)
+    context = {
+        "user": user,
+        "portfolio": portfolio,
+    }
+    return render(request,
+                  "auth_sys/user_details.html",
+                  context)
 
 
 class UserPasswordUpdateView(LoginRequiredMixin, views.PasswordChangeView):
