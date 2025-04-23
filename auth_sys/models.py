@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 
 # Create your models here.
@@ -14,7 +15,7 @@ class Portfolio(models.Model):
         return self.user.username
 
     def years_old(self):
-        return 16
+        return (datetime.now() - self.birthday_day).years
 
     class Meta:
         verbose_name = "portfolio"

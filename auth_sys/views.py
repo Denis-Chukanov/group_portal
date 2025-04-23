@@ -41,9 +41,9 @@ def user_creation(request):
 
 
 @login_required
-def user_update(request, pk):
+def user_update(request):
     if request.method == "POST":
-        user = User.objects.get(pk=pk)
+        user = User.objects.get(pk=request.user.pk)
         portfolio = Portfolio.objects.get(user=user)
         user_form = UserUpdateForm(request.POST)
         portfolio_form = PortfolioForm(request.POST, request.FILES)
@@ -62,7 +62,7 @@ def user_update(request, pk):
 
     template_name = "auth_sys/user_update_form.html"
     context = {
-        "form": UserCreationForm,
+        "form": UserUpdateForm,
         "portfolio_form": PortfolioForm,
     }
     return render(request,
@@ -71,7 +71,7 @@ def user_update(request, pk):
 
 
 def user_details(request, pk):
-    user = User.objects.get(pk=pk)
+    user = User.objects.get(id=pk)
     portfolio = Portfolio.objects.get(user=user)
     context = {
         "user": user,
@@ -79,7 +79,7 @@ def user_details(request, pk):
     }
     return render(request,
                   "auth_sys/user_details.html",
-                  context)
+                  context=context)
 
 
 class UserPasswordUpdateView(LoginRequiredMixin, views.PasswordChangeView):

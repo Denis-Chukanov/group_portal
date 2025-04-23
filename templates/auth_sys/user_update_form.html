@@ -1,3 +1,26 @@
-{% extends 'form.html' %}
+{% extends 'base.html' %}
 
-{% block button %}Update{% endblock %}
+{% block content %}
+<div class="">
+    <form method="post" class="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="">
+                {{ field.label_tag }}
+                {{ field }}
+            </div>
+        {% endfor %}
+        {% for field in portfolio_form %}
+            <div class="">
+                {{ field.label_tag }}
+                {{ field }}
+            </div>
+        {% endfor %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    <button type="submit" class="">Register</button>
+</div>
+{% endblock %}
