@@ -47,6 +47,7 @@ def user_update(request):
         portfolio = Portfolio.objects.get(user=user)
         user_form = UserUpdateForm(request.POST)
         portfolio_form = PortfolioForm(request.POST, request.FILES)
+        portfolio_form.Meta.set_value(portfolio)
         if user_form.is_valid():
             new_user = user_form.save(commit=False)
             if portfolio_form.is_valid():

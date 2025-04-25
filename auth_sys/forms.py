@@ -21,8 +21,19 @@ class PortfolioForm(ModelForm):
             "birthday_day": forms.DateInput(attrs={"type": "date"}),
         }
 
+        def set_value(self, model):
+            for field in self.fields:
+                attr = self.fields[field].widget.attrs
+                attr.update({"value": model.field})
+
 
 class UserUpdateForm(ModelForm):
     class Meta:
         model = User
         fields = ("username", "first_name", "last_name", "email")
+
+    def __init__(self, *args, **kwargs):
+        super(UserUpdateForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            attr = self.fields[field].widget.attrs
+            attr.update({"value": self.Meta.model.username})
