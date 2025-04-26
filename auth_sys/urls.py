@@ -11,5 +11,6 @@ urlpatterns = [
     path("delete/", views.CustomUserDeleteView.as_view(),
          name="delete_user"),
     path("<int:pk>/", views.user_details, name="user_details"),
+    path("logout/", views.logout_view, name="logout"),
     path("login-menu/", views.CustomLoginMenuView.as_view(), name="user_login_menu"),
 ]
