@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.urls import reverse_lazy
 from auth_sys.forms import UserCreationForm, UserUpdateForm, PortfolioForm
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from auth_sys.models import Portfolio
@@ -42,12 +42,10 @@ def user_creation(request):
 
 @login_required
 def user_update(request):
+    user = User.objects.get(pk=request.user.pk)
     if request.method == "POST":
-        user = User.objects.get(pk=request.user.pk)
-        portfolio = Portfolio.objects.get(user=user)
-        user_form = UserUpdateForm(request.POST)
+        user_form = UserUpdateForm(request.POST, instance=user)
         portfolio_form = PortfolioForm(request.POST, request.FILES)
-        portfolio_form.Meta.set_value(portfolio)
         if user_form.is_valid():
             new_user = user_form.save(commit=False)
             if portfolio_form.is_valid():
@@ -61,11 +59,13 @@ def user_update(request):
             messages.error(request, user_form.errors)
             messages.error(request, portfolio_form.errors)
 
+    portfolio = Portfolio.objects.get(user=user)
     template_name = "auth_sys/user_update_form.html"
     context = {
-        "form": UserUpdateForm,
-        "portfolio_form": PortfolioForm,
+        "form": UserUpdateForm(instance=user),
+        "portfolio_form": PortfolioForm(instance=portfolio),
     }
+    # context["portfolio_form"]().set_value(obj=portfolio)
     return render(request,
                   template_name,
                   context)
@@ -81,6 +81,12 @@ def user_details(request, pk):
     return render(request,
                   "auth_sys/user_details.html",
                   context=context)
+
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect("login")
 
 
 class UserPasswordUpdateView(LoginRequiredMixin, views.PasswordChangeView):
