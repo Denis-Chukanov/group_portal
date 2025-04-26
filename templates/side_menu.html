@@ -1,0 +1,8 @@
+{% load static %}
+{% if request.user.is_authenticated %}
+    <a href="{% url 'forum_main_page' %}" >Forum</a>
+{% else %}
+    <a href="{% url 'forum_main_page' %}" >Forum</a>
+        <a href="{% url 'user_login_menu' %}">Login</a>
+    </div>
+{% endif %}
