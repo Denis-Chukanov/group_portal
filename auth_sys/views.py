@@ -65,7 +65,6 @@ def user_update(request):
         "form": UserUpdateForm(instance=user),
         "portfolio_form": PortfolioForm(instance=portfolio),
     }
-    # context["portfolio_form"]().set_value(obj=portfolio)
     return render(request,
                   template_name,
                   context)
