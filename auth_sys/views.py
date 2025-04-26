@@ -106,3 +106,7 @@ class CustomUserDeleteView(DeleteView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+
+class CustomLoginMenuView(views.LoginView):
+    template_name = "auth_sys/user_login_menu.html"

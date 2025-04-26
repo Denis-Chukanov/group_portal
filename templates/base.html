@@ -1,2 +1,13 @@
-{% block content %}
-{% endblock %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>???</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    {% include "side_menu.html" %}
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
