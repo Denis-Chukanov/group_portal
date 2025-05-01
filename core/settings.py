@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'forum',
     'diary',
     'announcement',
+    'news',
 ]
 
 MIDDLEWARE = [
