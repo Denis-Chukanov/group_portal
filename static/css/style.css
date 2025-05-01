@@ -4,6 +4,8 @@ html, body {
     background: linear-gradient(160deg, #eae1ff, #afd1ff);
 }
 
+
+                                                            /* SideBar */
 .sidebar {
     background-color: #2c3e50;
     color: white;
@@ -83,3 +85,5 @@ html, body {
 .no-transition {
     transition: none !important;
   }
+
+/* something else */

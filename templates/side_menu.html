@@ -3,18 +3,19 @@
     <div class="sidebar" id="sidebar">
     <button class="toggle-btn" onclick="toggleSidebar()" style="color: black;">☰</button>
     <ul>
-        <li><a href="{% url 'forum_main_page' %}">🏠 Forum</a></li>
-        <li>⚙️ Settings</li>
         <li><a href="{% url 'logout' %}">👤 Logout</a></li>
+        <li>⚙️ Settings</li>
+        <li><a href="{% url 'forum_main_page' %}">🏠 Forum</a></li>
     </ul>
     </div>
 {% else %}
     <div class="sidebar" id="sidebar">
     <button class="toggle-btn" onclick="toggleSidebar()" style="color: black;">☰</button>
     <ul>
-        <li><a href="{% url 'forum_main_page' %}">🏠 Forum</a></li>
-        <li>⚙️ Settings</li>
+        
         <li><a href="{% url 'user_login_menu' %}">👤 Login</a></li>
+        <li>⚙️ Settings</li>
+        <li><a href="{% url 'forum_main_page' %}">🏠 Forum</a></li>
     </ul>
     </div>
 {% endif %}
