@@ -21,6 +21,7 @@
         </ul>
     {% else %}
         <h3><a href="{% url 'user_login_menu' %}">Зарегистрируйтесь что бы создать трэд!<a/></h3>
+        <hr>
         <h2>Темы:</h2>
         <ul>
             {% for thread in threads %}
