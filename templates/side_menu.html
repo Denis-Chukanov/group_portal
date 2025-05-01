@@ -5,7 +5,9 @@
     <ul>
         <li><a href="{% url 'logout' %}">👤 Logout</a></li>
         <li>⚙️ Settings</li>
-        <li><a href="{% url 'forum_main_page' %}">🏠 Forum</a></li>
+        <li><a href="{% url 'forum_main_page' %}">💬 Announcements</a></li>
+        <li><a href="{% url 'forum_main_page' %}">📔 Diary</a></li>
+        <li><a href="{% url 'forum_main_page' %}">📰 News</a></li>
     </ul>
     </div>
 {% else %}
@@ -15,7 +17,9 @@
         
         <li><a href="{% url 'user_login_menu' %}">👤 Login</a></li>
         <li>⚙️ Settings</li>
-        <li><a href="{% url 'forum_main_page' %}">🏠 Forum</a></li>
+        <li><a href="{% url 'forum_main_page' %}">💬 Announcements</a></li>
+        <li><a href="{% url 'forum_main_page' %}">📔 Diary</a></li>
+        <li><a href="{% url 'forum_main_page' %}">📰 News</a></li>
     </ul>
     </div>
 {% endif %}
