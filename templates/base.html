@@ -16,7 +16,7 @@
         document.addEventListener("DOMContentLoaded", function () {
           const sidebar = document.getElementById("sidebar");
           const mainContent = document.getElementById("main-content");
-          const isCollapsed = localStorage.getItem("sidebarCollapsed") !== "false"; // по умолчанию свернуто
+          const isCollapsed = localStorage.getItem("sidebarCollapsed") !== "false";
           sidebar.classList.add("no-transition");
           mainContent.classList.add("no-transition");
       
@@ -46,7 +46,6 @@
             mainContent.style.marginLeft = "130px";
           }
       
-          // Сохраняем состояние
           localStorage.setItem("sidebarCollapsed", sidebar.classList.contains("collapsed"));
         }
       </script>
