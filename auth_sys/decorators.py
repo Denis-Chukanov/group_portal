@@ -1,28 +1,39 @@
 from django.core.exceptions import PermissionDenied
 
 
-def decorator_body(request, func, permission, *args):
-    if request.user.portfolio.permission != permission:
+def conditional(request, permission):
+    return request.user.portfolio.permission != permission
+
+
+def decorator_body(request, func, conditional, *args, **kwargs):
+    if conditional:
         raise PermissionDenied
-    return func(request, *args)
+    return func(request, *args, **kwargs)
 
 
 def is_administrator(func):
-    def wrapper(request, *args):
-        return decorator_body(request, func, "ADMIN", *args)
+    def wrapper(request, *args, **kwargs):
+        admin_conditional = conditional(request, "ADMIN")
+        return decorator_body(request, func, admin_conditional,
+                              *args, **kwargs)
 
     return wrapper
 
 
 def is_moderator(func):
     def wrapper(request, *args):
-        decorator_body(request, func, "MODER", *args)
+        moder_conditional = (conditional(request, "MODER")
+                             and conditional(request, "ADMIN"))
+        return decorator_body(request, func, moder_conditional, *args)
 
     return wrapper
 
 
 def is_student(func):
     def wrapper(request, *args):
-        decorator_body(request, func, "STUDENT", *args)
+        student_conditional = (conditional(request, "STUDENT")
+                               and conditional(request, "MODER")
+                               and conditional(request, "ADMIN"))
+        decorator_body(request, func, student_conditional, *args)
 
     return wrapper

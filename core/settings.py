@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'auth_sys',
     'forum',
+    "materials",
 ]
 
 MIDDLEWARE = [
