@@ -1,7 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{{ thread.title }}</h1>
-    <p>{{ thread.content }}</p> 
-    <a href="{% url 'forum_main_page' %}">Вернуться на главную</a>
+  <h1>{{ thread.title }}</h1>
+  <p>{{ thread.content }}</p>
+  <hr>
+  <h2>Comments:</h2>
+  {% include 'forum/post_tree.html' with posts=all_posts parent=None form=form %}
+  <hr>
+  {% if request.user.is_authenticated %}
+    <h3>Залишити відповідь:</h3>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Відправити</button>
+    </form>
+  {% else %}
+    <p><a href="{% url 'login' %}">Увійдіть</a>, щоб залишити відповідь.</p>
+  {% endif %}
+
 {% endblock %}
