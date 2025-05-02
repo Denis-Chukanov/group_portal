@@ -14,12 +14,13 @@ class Thread(models.Model):
 class Post(models.Model):
     thread = models.ForeignKey(Thread, related_name='posts', on_delete=models.CASCADE)
     content = models.TextField()
+    parent = models.ForeignKey('self', null=True, blank=True, related_name='replies', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
     attachment = models.FileField(
         upload_to='attachments/', 
         blank=True, 
         null=True, 
         validators=[FileExtensionValidator(allowed_extensions=['pdf', 'docx', 'png', 'jpg', 'jpeg'])]
     )
-    parent = models.ForeignKey('self', null=True, blank=True, related_name='replies', on_delete=models.CASCADE)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
+    
