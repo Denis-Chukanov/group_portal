@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
+from django.core.exceptions import ValidationError
 
 
 # Create your models here.
@@ -23,7 +24,18 @@ class Portfolio(models.Model):
         return self.user.username
 
     def years_old(self):
-        return (datetime.now() - self.birthday_day).years
+        if self.birthday_day is not None:
+            days = (datetime.date(datetime.now()) - self.birthday_day).days
+            return int(days / 365.25)
+        else:
+            return ""
+
+    def save(self, *args, **kwargs):
+        if self.birthday_day is not None:
+            if self.birthday_day > datetime.date(datetime.now()):
+                self.user.delete()
+                raise ValidationError("You have born in the past.")
+        super(Portfolio, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = "portfolio"

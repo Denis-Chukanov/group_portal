@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'auth_sys',
     'forum',
+    "materials",
     'diary',
     'announcement',
     'news',
@@ -62,7 +63,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join (BASE_DIR, "templates")],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -139,6 +140,7 @@ STATICFILES_DIRS = [
 
 LOGIN_URL = "/user/login/"
 LOGOUT_URL = "/user/login/"
+LOGIN_REDIRECT_URL = reverse_lazy("news_list")
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
