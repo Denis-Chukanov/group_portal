@@ -11,7 +11,7 @@ html, body {
 .sidebar {
     background-color: #2c3e50;
     color: white;
-    width: 130px;
+    width: 140px;
     transition: width 0.3s ease;
     overflow: hidden;
     display: flex;
@@ -30,22 +30,25 @@ html, body {
 
 .sidebar.collapsed ul {
     display: none;
+    transition: background 0.5s;
 }
 
 .sidebar.collapsed ul li span {
     display: none;
+    transition: background 0.5s;
 }
 
 .sidebar.collapsed ~ .main-content {
     margin-left: 60px;
+    transition: background 0.5s;
 }
 
 .sidebar .toggle-btn {
     background: none;
+    font-size: 30px;
+    color: black;
     border: none;
-    color: white;
-    padding: 1rem;
-    font-size: 1.5rem;
+    padding: 10px;
     cursor: pointer;
     text-align: left;
     width: 100%;
@@ -53,7 +56,7 @@ html, body {
 
 .sidebar ul li {
     padding: 5px;
-    transition: background 0.2s;
+    transition: background 0.5s;
 }
 
 .sidebar ul {
@@ -120,6 +123,69 @@ html, body {
     transform: translateY(0); 
 }
 
+.styled-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-field label {
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: white;
+}
+
+.form-wrapper {
+    max-width: 600px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.form-styled {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.field-error {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.form-messages .message {
+    background: #e0f3ff;
+    padding: 10px;
+    border-left: 4px solid #3498db;
+    margin-top: 10px;
+    border-radius: 5px;
+    color: #2c3e50;
+}
 
 /* footer */
 

@@ -1,26 +1,41 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="">
-    <form method="post" class="" enctype="multipart/form-data">
+<div class="form-wrapper">
+    <form method="post" class="styled-form" enctype="multipart/form-data">
         {% csrf_token %}
+
+        <h2 class="form-title">Update info</h2>
+
         {% for field in form %}
-            <div class="">
+            <div class="form-field">
                 {{ field.label_tag }}
                 {{ field }}
+                {% if field.errors %}
+                    <div class="field-error">{{ field.errors }}</div>
+                {% endif %}
             </div>
         {% endfor %}
+
         {% for field in portfolio_form %}
-            <div class="">
+            <div class="form-field">
                 {{ field.label_tag }}
                 {{ field }}
+                {% if field.errors %}
+                    <div class="field-error">{{ field.errors }}</div>
+                {% endif %}
             </div>
         {% endfor %}
+
         {% if messages %}
-            {% for message in messages %}
-                <p>{{ message }}</p>
-            {% endfor %}
+            <div class="form-messages">
+                {% for message in messages %}
+                    <p class="message">{{ message }}</p>
+                {% endfor %}
+            </div>
         {% endif %}
-    <button type="submit" class="">Register</button>
+
+        <button type="submit" class="auth-btn">Update</button>
+    </form>
 </div>
 {% endblock %}
