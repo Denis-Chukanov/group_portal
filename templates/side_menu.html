@@ -1,10 +1,10 @@
 {% load static %}
 {% if request.user.is_authenticated %}
     <div class="sidebar" id="sidebar">
-    <button class="toggle-btn" onclick="toggleSidebar()" style="color: black;">☰</button>
+    <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
     <ul>
-        <!-- Тут кнопки для переключения на разные приколы для зарегестрирванных, а внизу для не зарегестрирванных -->
-        <li><a href="{% url 'logout' %}">👤 Logout</a></li>
+        <!-- кнопки для переключения на разные приколы для зарегестрирванных, а внизу для не зарегестрирванных -->
+        <li><a href="{% url 'logout' %}">🔐 Logout</a></li>
         <li>⚙️ Settings(🚧)</li>
         <li><a href="{% url 'announcements' %}">📣 Announcements</a></li>
         <li><a href="{% url 'forum_main_page' %}">💬 Forum</a></li>
@@ -14,10 +14,10 @@
     </div>
 {% else %}
     <div class="sidebar" id="sidebar">
-    <button class="toggle-btn" onclick="toggleSidebar()" style="color: black;">☰</button>
+    <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
     <ul>
         
-        <li><a href="{% url 'user_login_menu' %}">👤 Login</a></li>
+        <li><a href="{% url 'user_login_menu' %}">🔐 Login</a></li>
         <li>⚙️ Settings(🚧)</li>
         <li><a href="{% url 'announcements' %}">📣 Announcements</a></li>
         <li><a href="{% url 'forum_main_page' %}">💬 Forum</a></li>

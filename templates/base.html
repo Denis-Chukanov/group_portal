@@ -28,42 +28,42 @@
 
 
                 <!-- Тут скрипт для сайдбара если что, так что руками не трогать, мне писать есил что-->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          const sidebar = document.getElementById("sidebar");
-          const mainContent = document.getElementById("main-content");
-          const isCollapsed = localStorage.getItem("sidebarCollapsed") !== "false";
-          sidebar.classList.add("no-transition");
-          mainContent.classList.add("no-transition");
-      
-          if (isCollapsed) {
-            sidebar.classList.add("collapsed");
-            mainContent.style.marginLeft = "60px";
-          } 
-          else {
-            mainContent.style.marginLeft = "130px";
-          }
-
-          setTimeout(() => {
-            sidebar.classList.remove("no-transition");
-            mainContent.classList.remove("no-transition");
-          }, 50);
-        });
-      
-        function toggleSidebar() {
-          const sidebar = document.getElementById("sidebar");
-          const mainContent = document.getElementById("main-content");
-          sidebar.classList.toggle("collapsed");
-      
-          if (sidebar.classList.contains("collapsed")) {
-            mainContent.style.marginLeft = "60px";
-          } 
-          else {
-            mainContent.style.marginLeft = "130px";
-          }
-      
-          localStorage.setItem("sidebarCollapsed", sidebar.classList.contains("collapsed"));
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const sidebar = document.getElementById("sidebar");
+        const mainContent = document.getElementById("main-content");
+        const isCollapsed = localStorage.getItem("sidebarCollapsed") !== "false";
+        sidebar.classList.add("no-transition");
+        mainContent.classList.add("no-transition");
+    
+        if (isCollapsed) {
+        sidebar.classList.add("collapsed");
+        mainContent.style.marginLeft = "60px";
+        } 
+        else {
+        mainContent.style.marginLeft = "140px";
         }
-      </script>
+
+        setTimeout(() => {
+        sidebar.classList.remove("no-transition");
+        mainContent.classList.remove("no-transition");
+        }, 50);
+    });
+    
+    function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const mainContent = document.getElementById("main-content");
+        sidebar.classList.toggle("collapsed");
+    
+        if (sidebar.classList.contains("collapsed")) {
+        mainContent.style.marginLeft = "60px";
+        } 
+        else {
+        mainContent.style.marginLeft = "140px";
+        }
+    
+        localStorage.setItem("sidebarCollapsed", sidebar.classList.contains("collapsed"));
+    }
+</script>
 </body>
 </html>

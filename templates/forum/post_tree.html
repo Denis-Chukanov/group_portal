@@ -1,0 +1,36 @@
+<ul style="list-style: none; padding-left: 20px;">
+    {% for post in posts %}
+      {% if post.parent == parent %}
+        <li>
+          <div style="border-left: 2px solid #ccc; margin-bottom: 10px; padding-left: 10px;">
+            <p><strong>{{ post.created_by }}</strong> — {{ post.created_at }}</p>
+            <p>{{ post.content }}</p>
+  
+            {% if post.attachment %}
+              {% with post.attachment.url|lower as file_url %}
+                {% if ".jpg" in file_url or ".jpeg" in file_url or ".png" in file_url or ".gif" in file_url %}
+                  <img src="{{ post.attachment.url }}" alt="Image" style="max-width: 300px; height: auto; margin-top: 10px;">
+                {% else %}
+                  <p><a href="{{ post.attachment.url }}" download>📎 Прикріплений файл</a></p>
+                {% endif %}
+              {% endwith %}
+            {% endif %}
+  
+            <a href="#" onclick="document.getElementById('reply-form-{{ post.id }}').style.display = 'block'; return false;">↩️ Відповісти</a>
+  
+            <div id="reply-form-{{ post.id }}" class="reply-form" style="display: none; margin-top: 10px;">
+              <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="hidden" name="parent" value="{{ post.id }}">
+                <button type="submit">Надіслати</button>
+              </form>
+            </div>
+          </div>
+
+          {% include 'forum/post_tree.html' with posts=posts parent=post form=form %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+  

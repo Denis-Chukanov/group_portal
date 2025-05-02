@@ -24,7 +24,7 @@ def user_creation(request):
                 user.save()
                 portfolio.save()
                 login(request, user)
-                return redirect("main_page")
+                return redirect("forum_main_page")
 
         else:
             messages.error(request, user_form.errors)
@@ -53,7 +53,7 @@ def user_update(request):
                 new_portfolio.user = new_user
                 new_user.save()
                 new_portfolio.save()
-                return redirect("main_page")
+                return redirect("forum_main_page")
 
         else:
             messages.error(request, user_form.errors)
