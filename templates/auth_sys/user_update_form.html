@@ -10,6 +10,8 @@
                 {{ field }}
             </div>
         {% endfor %}
+        <label for="id_password">Password</label>
+        <a href="{% url 'user_password_update' %}" id="id_password">Update password</a>
         {% for field in portfolio_form %}
             <div class="">
                 {{ field.label_tag }}

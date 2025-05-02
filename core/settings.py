@@ -139,6 +139,7 @@ STATICFILES_DIRS = [
 
 LOGIN_URL = "/user/login/"
 LOGOUT_URL = "/user/login/"
+LOGIN_REDIRECT_URL = reverse_lazy("news_list")
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
