@@ -7,7 +7,9 @@ class PostForm(forms.ModelForm):
         fields = ['content', 'attachment', 'parent']
         widgets = {
             'parent': forms.HiddenInput(),
-            'content': forms.TextInput(attrs={'placeholder': 'Напишіть відповідь...'})
+            'content': forms.TextInput(attrs={'placeholder': 'Напишіть відповідь...',
+                                              'rows': 3,
+                                              'style': 'resize: vertical; width: 30%;'})
         }
 
     def clean_content(self):
