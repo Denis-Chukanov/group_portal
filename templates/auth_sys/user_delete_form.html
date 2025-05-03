@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="">
-    <form method="post" class="">
-        <div class="">
-            {% csrf_token %}
-            <p class="">Do you want to delete?</p>
-        </div>
-        <button type="submit" class="">Yes</button>
-    </form>
+<div class="auth-content">
+    <div class="">
+        <form method="post" class="">
+            <div class="">
+                {% csrf_token %}
+                <p class="">Do you want to delete?</p>
+            </div>
+            <button type="submit" class="">Yes</button>
+        </form>
+    </div>
 </div>
-
 {% endblock %}
