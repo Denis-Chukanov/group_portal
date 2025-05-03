@@ -109,22 +109,21 @@ body.dark .theme-switch::before {
 
 .toggle-btn {
     position: absolute;
-    top: 4.9%;
+    top: 5%;
     left: 230px;
-    transform: translateX(-100%);
-    font-size: 20px;
-    background: transparent;
-    color: gray;
-    border: gray;
-    padding: 6px 10px;
+    transform: translateX(-50%);
+    font-size: 15px;
+    background: black;
+    color: rgb(156, 155, 155);
+    border-color: rgba(226, 225, 225, 0.674);
+    padding: 4px 7px;
     cursor: pointer;
-    z-index: 1000;
     border-radius: 100px;
     transition: left 0.3s ease;
 }
 
 .sidebar.collapsed + .toggle-btn {
-    left: 2.5%;
+    left: 3%;
 }
 
 
@@ -136,9 +135,11 @@ body.dark .theme-switch::before {
     margin-left: 250px;
     transition: margin-left 0.3s ease;
     padding-top: 4%;
-    padding-left: 15%;
   }
 
+.forum-main-content {
+    padding-left: 15%;
+}
 
 /* auth */
 
