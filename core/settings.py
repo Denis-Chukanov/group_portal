@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'announcement',
     'news',
     'gallery',
+    'voting',
 ]
 
 MIDDLEWARE = [
