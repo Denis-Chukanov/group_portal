@@ -8,7 +8,7 @@ from materials import models
 # Create your views here.
 class InvestmentDetails(LoginRequiredMixin, UserIsStudentMixin, DetailView):
     template_name = "materials/investment_details.html"
-    context_object_name = "investerment"
+    context_object_name = "investment"
     model = models.Investment
 
 

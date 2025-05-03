@@ -137,6 +137,7 @@ env.bak/
 venv.bak/
 
 media/auth_sys/
+media/materials/
 
 # Spyder project settings
 .spyderproject
