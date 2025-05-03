@@ -16,5 +16,7 @@
     <h3>Email: {{ user.email }}</h3>
     <h3>Years old:{{ portfolio.years_old }} years</h3>
     <p class="">{{ portfolio.description }}</p></div>
+    <a class="" href="{% url 'user_update' %}">Update</a><br>
+    <a class="" href="{% url 'user_delete' %}">Delete</a>
 </div>
 {% endblock %}

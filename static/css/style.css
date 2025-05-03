@@ -223,3 +223,18 @@ html, body {
 }
 
 /* something else */
+
+.full-investment {
+    width: 100%;
+    height: 100%;
+}
+
+.flex {
+    display: flex;
+}
+
+.user-image {
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-right: 5px;
+}

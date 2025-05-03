@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load customtags %}
+
+{% block content %}
+{% if investerment.media %}
+    {% if investerment.media.url|endswith:".pdf" or investerment.media.url|endswith:".htm" or investerment.media.url|endswith:".html" or investerment.media.url|endswith:".txt" %}
+        <object data="{{ investerment.media.url }}" class="full-investment"></object>
+    {% elif investerment.media.url|endswith:".jpg" or investerment.media.url|endswith:".png" or investerment.media.url|endswith:".jpeg" or investerment.media.url|endswith:".svg" or investerment.media.url|endswith:".gif" or investerment.media.url|endswith:".apng" %}
+        <img src="{{ investerment.media.url }}" class="full-investment">
+    {% elif investerment.media.url|endswith:".mp4" %}
+        <video controls class="full-investment">
+            <source src="{{ investerment.media.url }}" type="video/mp4"></source>
+        </video>
+    {% elif investerment.media.url|endswith: ".mp3" %}
+        <audio controls>
+            <source src="{{ investerment.media.url }}" type="audio/mpeg">
+        </audio>
+    {% elif investerment.media.url|endswith: ".ogg" %}
+        <audio controls>
+            <source src="{{ investerment.media.url }}" type="audio/ogg">
+        </audio>
+    {% elif investerment.media.url|endswith: ".acc" %}
+        <audio controls>
+            <source src="{{ investerment.media.url }}" type="audio/acc">
+        </audio>
+    {% elif investerment.media.url|endswith: ".wav" %}
+        <audio controls>
+            <source src="{{ investerment.media.url }}" type="audio/wav">
+        </audio>
+    {% endif %}
+{% endif %}
+{% endblock %}

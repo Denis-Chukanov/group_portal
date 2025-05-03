@@ -1,16 +1,19 @@
 from django.core.exceptions import PermissionDenied
 
 
+# Не для використання
 def conditional(request, permission):
     return request.user.portfolio.permission != permission
 
 
+# Не для використання
 def decorator_body(request, func, conditional, *args, **kwargs):
     if conditional:
         raise PermissionDenied
     return func(request, *args, **kwargs)
 
 
+# Перевірка на адміністратора
 def is_administrator(func):
     def wrapper(request, *args, **kwargs):
         admin_conditional = conditional(request, "ADMIN")
@@ -20,6 +23,7 @@ def is_administrator(func):
     return wrapper
 
 
+# Перевірка на можератора
 def is_moderator(func):
     def wrapper(request, *args):
         moder_conditional = (conditional(request, "MODER")
@@ -29,6 +33,7 @@ def is_moderator(func):
     return wrapper
 
 
+# Перевірка на учня
 def is_student(func):
     def wrapper(request, *args):
         student_conditional = (conditional(request, "STUDENT")

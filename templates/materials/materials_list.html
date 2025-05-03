@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1 class="">{{ subject.name }}</h1>
+{% for material in materials %}
+    <div class="material">
+        <h2>{{ material.name }}</h2>
+        <small>{{ material.description }}</small>
+        <div class="flex">
+            <h3>{{ subject.owner.first_name }} {{ subject.owner.last_name }}
+            {% if subject.owner.portfolio.image.url is not None %}
+                <img width="30px" height="30px" src="{{ portfolio.image.url }}" class="user-image">
+            {% else %}
+                <img width="30px" height="30px" src="{% static 'img/no_photo.png' %}" class="user-image">
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}

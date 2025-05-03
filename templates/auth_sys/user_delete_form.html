@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="">
-    <form method="post" class="">
-        <div class="">
+<div class="form-wrapper">
+    <form method="post" class="styled-form">
+        <div class="form-field">
             {% csrf_token %}
             <p class="">Do you want to delete?</p>
         </div>
-        <button type="submit" class="">Yes</button>
+        <div class="flex">
+            <button type="submit" class="auth-btn">Yes</button>
+            <a href="{% url 'news_list' %}" class="auth-btn">No</a>
+        </div>
     </form>
 </div>
 
