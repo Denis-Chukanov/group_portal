@@ -4,6 +4,7 @@
     <title>Group project</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
     {% include "side_menu.html" %}
@@ -27,43 +28,64 @@
 </footer>
 
 
-                <!-- Тут скрипт для сайдбара если что, так что руками не трогать, мне писать есил что-->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          const sidebar = document.getElementById("sidebar");
-          const mainContent = document.getElementById("main-content");
-          const isCollapsed = localStorage.getItem("sidebarCollapsed") !== "false";
-          sidebar.classList.add("no-transition");
-          mainContent.classList.add("no-transition");
-      
-          if (isCollapsed) {
+                <!-- Тут скрипт для сайдбара если что, так что руками не трогать, писать Роману есил что-->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const sidebar = document.getElementById("sidebar");
+        const mainContent = document.getElementById("main-content");
+        const isCollapsed = localStorage.getItem("sidebarCollapsed") !== "false";
+        sidebar.classList.add("no-transition");
+        mainContent.classList.add("no-transition");
+    
+        if (isCollapsed) {
             sidebar.classList.add("collapsed");
-            mainContent.style.marginLeft = "60px";
-          } 
-          else {
-            mainContent.style.marginLeft = "130px";
-          }
-
-          setTimeout(() => {
+            mainContent.style.marginLeft = "0px";
+        } else {
+            mainContent.style.marginLeft = "250px";
+        }
+    
+        setTimeout(() => {
             sidebar.classList.remove("no-transition");
             mainContent.classList.remove("no-transition");
-          }, 50);
-        });
-      
-        function toggleSidebar() {
-          const sidebar = document.getElementById("sidebar");
-          const mainContent = document.getElementById("main-content");
-          sidebar.classList.toggle("collapsed");
-      
-          if (sidebar.classList.contains("collapsed")) {
-            mainContent.style.marginLeft = "60px";
-          } 
-          else {
-            mainContent.style.marginLeft = "130px";
-          }
-      
-          localStorage.setItem("sidebarCollapsed", sidebar.classList.contains("collapsed"));
+        }, 50);
+    });
+    
+    function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const mainContent = document.getElementById("main-content");
+        sidebar.classList.toggle("collapsed");
+    
+        if (sidebar.classList.contains("collapsed")) {
+            mainContent.style.marginLeft = "0px";
+        } else {
+            mainContent.style.marginLeft = "250px";
         }
-      </script>
+    
+        localStorage.setItem("sidebarCollapsed", sidebar.classList.contains("collapsed"));
+    }
+
+    const themeSwitch = document.querySelector('.theme-switch');
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.classList.toggle('dark', savedTheme === 'dark');
+        updateTheme(savedTheme);
+    });
+
+    themeSwitch.addEventListener('click', () => {
+        const isDark = document.body.classList.toggle('dark');
+        const newTheme = isDark ? 'dark' : 'light';
+        localStorage.setItem('theme', newTheme);
+        updateTheme(newTheme);
+    });
+
+    function updateTheme(theme) {
+        if (theme === 'dark') {
+        themeSwitch.classList.add('dark');
+        } 
+        else {
+        themeSwitch.classList.remove('dark');
+        }
+    }
+</script>
 </body>
 </html>

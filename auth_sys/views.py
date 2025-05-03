@@ -24,7 +24,7 @@ def user_creation(request):
                 user.save()
                 portfolio.save()
                 login(request, user)
-                return redirect("main_page")
+                return redirect("news_list")
 
         else:
             messages.error(request, user_form.errors)
@@ -53,7 +53,7 @@ def user_update(request):
                 new_portfolio.user = new_user
                 new_user.save()
                 new_portfolio.save()
-                return redirect("main_page")
+                return redirect("news_list")
 
         else:
             messages.error(request, user_form.errors)
@@ -89,13 +89,13 @@ def logout_view(request):
 
 
 class UserPasswordUpdateView(LoginRequiredMixin, views.PasswordChangeView):
-    success_url = reverse_lazy("main_page")
-    template_name = "auth_sys/user_update_form.html"
+    success_url = reverse_lazy("news_list")
+    template_name = "auth_sys/user_password_update_form.html"
 
 
 class CustomLoginView(views.LoginView):
-    success_url = reverse_lazy("main_page")
     template_name = "auth_sys/user_login_form.html"
+    success_url = reverse_lazy("news_list")
 
 
 class CustomUserDeleteView(DeleteView):

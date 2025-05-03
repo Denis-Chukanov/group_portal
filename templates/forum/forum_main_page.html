@@ -2,9 +2,11 @@
 
 {% block content %}
     <h1>Добро пожаловать на форум!</h1>
-    <h2>Создать новую тему</h2>
     {% if request.user.is_authenticated %}
-        <form method="post" action="{% url 'forum_create_thread' %}">
+        <div class="create-container">
+            <h2><span style="font-size: 26px">+</span> Create</h2>
+        </div>
+        <form method="post" action="{% url 'forum_create_thread' %}" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="text" name="title" placeholder="Название темы" required>
             <input type="text" name="content" placeholder="Детали темы">
@@ -14,7 +16,7 @@
         <h2>Темы:</h2>
         <ul>
             {% for thread in threads %}
-                <li><a href="{% url 'thread_details' thread.id %}">{{ thread.title }}</a> ({{ thread.created_at|date:"d.m.Y H:i" }})</li>
+                <li><a href="{% url 'forum_thread_details' thread.id %}">{{ thread.title }}</a> ({{ thread.created_at|date:"d.m.Y H:i" }})</li>
             {% empty %}
                 <li>Тем пока нет. Будь первым!</li>
             {% endfor %}
@@ -25,7 +27,7 @@
         <h2>Темы:</h2>
         <ul>
             {% for thread in threads %}
-                <li><a href="{% url 'thread_details' thread.id %}">{{ thread.title }}</a> ({{ thread.created_at|date:"d.m.Y H:i" }})</li>
+                <li><a href="{% url 'forum_thread_details' thread.id %}">{{ thread.title }}</a> ({{ thread.created_at|date:"d.m.Y H:i" }})</li>
             {% empty %}
                 <li>Тем пока нет. Будь первым!</li>
             {% endfor %}
