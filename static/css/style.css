@@ -325,6 +325,24 @@ body.dark .auth-btn:active {
     color: #3498db;
 }
 
+
+/* materials */
+
+.full-investment {
+    width: 100%;
+    height: 100%;
+}
+
+.flex {
+    display: flex;
+}
+
+.user-image {
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
 /* forum */
 
 .create-container {

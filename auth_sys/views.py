@@ -47,13 +47,13 @@ def user_update(request):
         user_form = UserUpdateForm(request.POST, instance=user)
         portfolio_form = PortfolioForm(request.POST, request.FILES)
         if user_form.is_valid():
-            new_user = user_form.save(commit=False)
+            user_form = user_form.save()
             if portfolio_form.is_valid():
-                new_portfolio = portfolio_form.save(commit=False)
-                new_portfolio.user = new_user
-                new_user.save()
-                new_portfolio.save()
-                return redirect("news_list")
+                login(request, user_form)
+                portfolio_form = portfolio_form.save(commit=False)
+                portfolio_form.user = request.user
+                portfolio_form.save()
+                return reverse_lazy("news_list")
 
         else:
             messages.error(request, user_form.errors)
@@ -79,6 +79,18 @@ def user_details(request, pk):
     }
     return render(request,
                   "auth_sys/user_details.html",
+                  context=context)
+
+
+def request_user_details(request):
+    user = User.objects.get(id=request.user.pk)
+    portfolio = Portfolio.objects.get(user=user)
+    context = {
+        "user": user,
+        "portfolio": portfolio,
+    }
+    return render(request,
+                  "auth_sys/request_user_details.html",
                   context=context)
 
 

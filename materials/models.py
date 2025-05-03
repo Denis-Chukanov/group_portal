@@ -4,20 +4,6 @@ from urllib.parse import urlparse
 
 
 # Create your models here.
-class Investment(models.Model):
-    file = models.FileField(upload_to="materials/", null=True, blank=True)
-    url = models.URLField(null=True, blank=True)
-
-    def is_youtube(self):
-        site = urlparse(self.url)[1]
-        return (site == "youtu.be" or site == "www.youtube.com")
-
-    def __str__(self):
-        return f"{self.file}{self.url}"
-
-    class Meta:
-        verbose_name = "investment"
-        verbose_name_plural = "investments"
 
 
 class Subject(models.Model):
@@ -62,3 +48,28 @@ class Comment(models.Model):
     class Meta:
         verbose_name = "comment"
         verbose_name_plural = "comments"
+
+
+class Investment(models.Model):
+    media = models.FileField(upload_to="materials/", null=True, blank=True)
+    adress = models.URLField(null=True, blank=True)
+    material = models.ForeignKey(Material, on_delete=models.CASCADE,
+                                 related_name="investments")
+
+    def is_youtube(self):
+        site = urlparse(self.adress)[1]
+        return (site == "youtu.be" or site == "www.youtube.com")
+
+    def get_youtube_scr(self):
+        match urlparse(self.adress)[1]:
+            case "youtu.be":
+                return urlparse(self.adress)[2][1:]
+            case "www.youtube.com":
+                return urlparse(self.adress)[4].split("=")[1]
+
+    def __str__(self):
+        return f"{self.media}{self.adress}"
+
+    class Meta:
+        verbose_name = "investment"
+        verbose_name_plural = "investments"

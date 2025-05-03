@@ -8,18 +8,26 @@
 
             <h2 class="form-title">Update info</h2>
 
-            {% for field in form %}
-                <div class="form-field">
-                    {{ field.label_tag }}
-                    {{ field }}
-                    {% if field.errors %}
-                        <div class="field-error">{{ field.errors }}</div>
-                    {% endif %}
-                </div>
-            {% endfor %}
-
-            <label for="id_password">Password</label>
-            <a href="{% url 'user_password_update' %}" id="id_password">Update password</a>
+        {% for field in form %}
+            <div class="form-field">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <div class="field-error">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <label for="id_password">Password</label>
+        <a href="{% url 'user_password_update' %}" id="id_password">Update password</a>
+        {% for field in portfolio_form %}
+            <div class="form-field">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <div class="field-error">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
 
             {% for field in portfolio_form %}
                 <div class="form-field">
