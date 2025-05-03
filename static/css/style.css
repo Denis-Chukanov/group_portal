@@ -113,7 +113,7 @@ body.dark .theme-switch::before {
     left: 230px;
     transform: translateX(-100%);
     font-size: 20px;
-    background: #1a1a1a;
+    background: transparent;
     color: gray;
     border: gray;
     padding: 6px 10px;
