@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
-from .models import Thread, Post
+from auth_sys.decorators import is_moderator
+from .models import Thread
 from .forms import PostForm
 
 
 def forum_main_page(request):
     threads = Thread.objects.all().order_by('created_at')
     return render(request, 'forum/forum_main_page.html', {'threads': threads})
-
 
 @login_required
 def forum_create_thread(request):
@@ -20,7 +21,6 @@ def forum_create_thread(request):
         else:
             return HttpResponse("Title is required.")
     return redirect('forum_main_page')
-
 
 @login_required
 def forum_thread_details(request, id):
@@ -43,3 +43,16 @@ def forum_thread_details(request, id):
         'all_posts': posts,
         'form': form,
     })
+    
+@login_required
+def forum_thread_delete(request, id):
+    thread = get_object_or_404(Thread, id=id)
+    
+    if request.user != thread.created_by and not request.user.is_moderator:
+        return HttpResponseForbidden("You cannot delete this thread.")
+    
+    if request.method == 'POST':
+        thread.delete()
+        return redirect('forum_main_page')
+    
+    return render(request, 'forum/forum_confirm_delete.html', {'thread': thread})
