@@ -134,11 +134,12 @@ body.dark .theme-switch::before {
     min-height: 100%;
     margin-left: 250px;
     transition: margin-left 0.3s ease;
-    padding-top: 4%;
+    padding-top: 3%;
+    padding-left: 15%;
   }
 
-.forum-main-content {
-    padding-left: 15%;
+.auth-content {
+    padding-right: 15%;
 }
 
 /* auth */

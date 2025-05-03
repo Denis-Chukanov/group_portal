@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% load static %}
-<div class="">
+<div class="auth-content">
     <h1>{{ user.username }}</h1>
     <h3>Name: {{ user.first_name }} {{ user.last_name }}</h3>
     <h3>Email: {{ user.email }}</h3>
