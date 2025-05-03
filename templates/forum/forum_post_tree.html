@@ -3,7 +3,7 @@
     {% if post.parent == parent %}
       <li>
         <div class="post">
-          <p><strong>{{ post.created_by }}</strong> — {{ post.created_at }}</p>
+          <p><strong>{{ post.created_by }}</strong><span class="created-time"> • {{ post.created_at|timesince }} ago</span></p>
           <p>{{ post.content }}</p>
 
           {% if post.attachment %}
@@ -28,7 +28,7 @@
           </div>
         </div>
 
-        {% include 'forum/post_tree.html' with posts=posts parent=post form=form %}
+        {% include 'forum/forum_post_tree.html' with posts=posts parent=post form=form %}
       </li>
     {% endif %}
   {% endfor %}

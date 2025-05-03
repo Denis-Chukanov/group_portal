@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <p><span style="font-size: 25px;">{{ thread.created_by }}</span> <span class="created-time">• {{ thread.created_at|timesince }} ago</span> <a href="{% url 'forum_confirm_delete' thread.id %}">DELETE THREAD</a></p> 
     <h1>{{ thread.title }}</h1>
     <p>{{ thread.content }}</p>
     <hr>
@@ -16,5 +17,5 @@
     {% endif %}
     <hr>
     <h2>Comments:</h2>
-    {% include 'forum/post_tree.html' with posts=all_posts parent=None form=form %}
+    {% include 'forum/forum_post_tree.html' with posts=all_posts parent=None form=form %}
 {% endblock %}

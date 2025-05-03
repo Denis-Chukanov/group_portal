@@ -1,6 +1,7 @@
 {% load static %}
 {% if request.user.is_authenticated %}
     <div class="sidebar" id="sidebar">
+        <button class="theme-switch"></button>
         <ul>
             <li><a href="{% url 'logout' %}">🔐 Logout</a></li>
             <li>⚙️ Settings(🚧)</li>
@@ -10,12 +11,11 @@
             <li><a href="{% url 'news_list' %}">📰 News</a></li>
             <li><a href="#">👨‍🎓profile(🚧)</a></li>
         </ul>
-        <button class="theme-switch"></button>
+        
     </div>
 {% else %}
-<button class="toggle-btn" onclick="toggleSidebar()">☰</button>
     <div class="sidebar" id="sidebar">
-        
+        <button class="theme-switch"></button>
         <ul>
             <li><a href="{% url 'user_login_menu' %}">🔐 Login</a></li>
             <li>⚙️ Settings(🚧)</li>
@@ -23,7 +23,8 @@
             <li><a href="{% url 'forum_main_page' %}">💬 Forum</a></li>
             <li><a href="{% url 'forum_main_page' %}">📖 Diary(🚧)</a></li>
             <li><a href="{% url 'news_list' %}">📰 News</a></li>
-            <li><button class="theme-switch"></button></li>
         </ul>
     </div>
 {% endif %}
+    
+<button class="toggle-btn" onclick="toggleSidebar()">☰</button>
