@@ -48,8 +48,8 @@ def forum_thread_details(request, id):
 def forum_thread_delete(request, id):
     thread = get_object_or_404(Thread, id=id)
     
-    if thread.created_by != request.user:
-        return HttpResponseForbidden("You do not have permission to delete this thread.")
+    if request.user != thread.created_by and not request.user.is_moderator:
+        return HttpResponseForbidden("You cannot delete this thread.")
     
     if request.method == 'POST':
         thread.delete()

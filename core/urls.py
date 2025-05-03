@@ -28,4 +28,5 @@ urlpatterns = [
     path('', include("announcement.urls")),
     path('news/', include('news.urls')),
     path('events/', include('events.urls')),
+    path('voting/', include('voting.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
