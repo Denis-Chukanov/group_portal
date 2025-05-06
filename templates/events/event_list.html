@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Події</h1>
+  <ul>
+    {% for event in events %}
+      <li>
+        <strong>{{ event.title }}</strong> — {{ event.date|date:"Y-m-d H:i" }}<br>
+        {{ event.description }}
+      </li>
+    {% empty %}
+      <li>Подій немає</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
