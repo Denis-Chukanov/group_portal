@@ -17,8 +17,7 @@
                 {% endif %}
             </div>
         {% endfor %}
-        <label for="id_password">Password</label>
-        <a href="{% url 'user_password_update' %}" id="id_password">Update password</a>
+
         {% for field in portfolio_form %}
             <div class="form-field">
                 {{ field.label_tag }}
@@ -29,23 +28,13 @@
             </div>
         {% endfor %}
 
-            {% for field in portfolio_form %}
-                <div class="form-field">
-                    {{ field.label_tag }}
-                    {{ field }}
-                    {% if field.errors %}
-                        <div class="field-error">{{ field.errors }}</div>
-                    {% endif %}
-                </div>
-            {% endfor %}
-
-            {% if messages %}
-                <div class="form-messages">
-                    {% for message in messages %}
-                        <p class="message">{{ message }}</p>
-                    {% endfor %}
-                </div>
-            {% endif %}
+        {% if messages %}
+            <div class="form-messages">
+                {% for message in messages %}
+                    <p class="message">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
 
             <button type="submit" class="auth-btn">Update</button>
         </form>
