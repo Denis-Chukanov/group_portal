@@ -1,0 +1,31 @@
+{% load static %}
+
+<head>
+  <meta charset="UTF-8">
+  <title>Календар</title>
+</head>
+<body>
+  <div class="calendar-icon" onclick="toggleCalendar()">🗓️</div>
+
+  <div class="calendar-popup" id="calendarPopup">
+    <h3>Календар подій</h3>
+    <p>Раздел в разработке</p>
+  </div>
+
+  <script>
+    function toggleCalendar() {
+      const popup = document.getElementById("calendarPopup");
+      popup.classList.toggle("active");
+    }
+
+    
+    window.addEventListener("click", function(e) {
+      const popup = document.getElementById("calendarPopup");
+      const icon = document.querySelector(".calendar-icon");
+      if (!popup.contains(e.target) && !icon.contains(e.target)) {
+        popup.classList.remove("active");
+      }
+    });
+  </script>
+</body>
+</html>
