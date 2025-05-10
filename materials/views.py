@@ -1,15 +1,22 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import DetailView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from auth_sys.mixins import UserIsStudentMixin
 from materials import models
+from django.contrib.auth.decorators import login_required
+from auth_sys.decorators import is_student
 
 
 # Create your views here.
-class InvestmentDetails(LoginRequiredMixin, UserIsStudentMixin, DetailView):
-    template_name = "materials/investment_details.html"
-    context_object_name = "investment"
-    model = models.Investment
+@login_required
+@is_student
+def investment_details(request, pk):
+    investment = models.Investment.objects.get(pk=pk)
+    if investment.media:
+        return redirect(investment.media.url)
+
+    else:
+        return redirect(investment.adress)
 
 
 class SubjectList(LoginRequiredMixin, UserIsStudentMixin, ListView):
@@ -38,3 +45,9 @@ class MaterialList(LoginRequiredMixin, UserIsStudentMixin, ListView):
         context["subject"] = subject
 
         return context
+
+
+class MaterialDetailView(LoginRequiredMixin, UserIsStudentMixin, DetailView):
+    model = models.Material
+    template_name = "materials/material_details.html"
+    context_object_name = "material"

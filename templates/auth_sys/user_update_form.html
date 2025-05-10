@@ -29,16 +29,6 @@
             </div>
         {% endfor %}
 
-            {% for field in portfolio_form %}
-                <div class="form-field">
-                    {{ field.label_tag }}
-                    {{ field }}
-                    {% if field.errors %}
-                        <div class="field-error">{{ field.errors }}</div>
-                    {% endif %}
-                </div>
-            {% endfor %}
-
             {% if messages %}
                 <div class="form-messages">
                     {% for message in messages %}

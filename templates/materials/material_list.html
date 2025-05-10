@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1 class="">{{ subject.name }}</h1>
+<h4>{{ subject.owner.first_name }} {{ subject.owner.last_name }}</h4>
+{% for material in materials %}
+    <div class="material">
+        <h2>{{ material.name }}</h2>
+        <small>{{ material.changed_at }}</small>
+    </div>
+{% endfor %}
+{% endblock %}

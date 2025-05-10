@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ material.name }}</h1>
+<small>{{ material.subject.owner.first_name }} {{ material.subject.owner.last_name }} {{ material.changed_at }}</small>
+
+{% for investment in material.investments %}
+    {% if investment.adress is not None %}
+        {% if investment.is_youtube %}
+            <iframe src="https://youtube.com/embed/{{ investment.get_youtube_scr }}"
+                allowfullscreen
+                scrolling="no"
+                allow="accelerometer *; clipboard-write *; encrypted-media *; gyroscope *; picture-in-picture *; web-share *;">
+            </iframe>
+        {% endif %}
+        <a href="{% url 'investment_details' pk=investment.pk %}">{{ investment.adress }}</a>
+    {% else %}
+        <a href="{% url 'investment_details' pk=investment.pk %}">{{ investment.media }}</a>
+    {% endif %}
+{% endfor %}
+
+{% endblock %}

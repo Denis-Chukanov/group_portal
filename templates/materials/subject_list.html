@@ -5,7 +5,9 @@
 {% for subject in subjects %}
     <div class="subject">
         <h2>{{ subject.name }}</h2>
-        <small>{{ subject.form }}</small>
+        {% if subject.form is not None %}
+            <small>{{ subject.form }}</small>
+        {% endif %}
         <div class="flex">
             <h3>{{ subject.owner.first_name }} {{ subject.owner.last_name }}
             {% if subject.owner.portfolio.image.url is not None %}

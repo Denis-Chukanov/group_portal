@@ -43,18 +43,25 @@ def user_creation(request):
 @login_required
 def user_update(request):
     user = User.objects.get(pk=request.user.pk)
+    portfolio = Portfolio.objects.get(user=user)
     if request.method == "POST":
         user_form = UserUpdateForm(request.POST, instance=user)
-        portfolio_form = PortfolioForm(request.POST, request.FILES)
-        if user_form.is_valid():
-            user_form = user_form.save()
-            if portfolio_form.is_valid():
-                login(request, user_form)
-                portfolio_form = portfolio_form.save(commit=False)
-                portfolio_form.user = request.user
-                portfolio_form.save()
-                return reverse_lazy("news_list")
 
+        try:
+            portfolio_instance = Portfolio.objects.get(user=user)
+        except Portfolio.DoesNotExist:
+            portfolio_instance = Portfolio(user=user)
+
+        portfolio_form = PortfolioForm(request.POST, request.FILES,
+                                       instance=portfolio_instance)
+
+        if user_form.is_valid() and portfolio_form.is_valid():
+            user_form = user_form.save()
+            portfolio = portfolio_form.save(commit=False)
+            portfolio.user = request.user
+            portfolio.save()
+            login(request, user_form)
+            return redirect("news_list")
         else:
             messages.error(request, user_form.errors)
             messages.error(request, portfolio_form.errors)
