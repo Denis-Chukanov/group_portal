@@ -1,38 +1,52 @@
 {% extends 'base.html' %}
-
+{% load static %}   
 {% block content %}
-    <div class="forum-main-content">
-    <h1>Добро пожаловать на форум!</h1>
+{% include "forum/forum_redirect.html" %}
+<div class="forum-main-content">
     {% if request.user.is_authenticated %}
         <div class="create-container">
-            <h2><span style="font-size: 26px">+</span> Create</h2>
+            <a href="{% url 'forum_creation_thread' %}" class="btn"><span style="font-size: 26px">+</span> Create</a>
         </div>
-        <form method="post" action="{% url 'forum_create_thread' %}" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="text" name="title" placeholder="Название темы" required>
-            <input type="text" name="content" placeholder="Детали темы">
-            <button type="submit">Создать</button>
-        </form>
         <hr>
         <h2>Темы:</h2>
-        <ul>
-            {% for thread in threads %}
-                <li><a href="{% url 'forum_thread_details' thread.id %}">{{ thread.title }}</a> ({{ thread.created_at|date:"d.m.Y H:i" }})</li>
-            {% empty %}
-                <li>Тем пока нет. Будь первым!</li>
-            {% endfor %}
-        </ul>
+        {% for thread in threads %}
+        <a href="{% url 'forum_thread_details' thread.id %}">  
+            <div class="forum-threads-box"> 
+            <span class="forum-author-info created-time" >
+                {% with thread_creator=thread.created_by %}
+                    {% with creator_portfolio=thread_creator.portfolio %}
+                        {% if creator_portfolio.image %}
+                            <img src="{{ creator_portfolio.image.url }}" alt="avatar" width="20" height="20" class="user-image">
+                        {% else %}
+                            <img src="{% static 'img/no_photo.png' %}" alt="default avatar" width="20" height="20" class="user-image">
+                        {% endif %}
+                    {% endwith %}
+                {% endwith %}
+            • {{ thread.created_at|timesince }} ago</span>
+            <span class="thread-title">{{ thread.title }}</span>
+            {% if thread.attachment %}
+            {% with thread.attachment.url|lower as file_url %}
+                {% if ".jpg" in file_url or ".jpeg" in file_url or ".png" in file_url or ".gif" in file_url %}
+              <img src="{{ thread.attachment.url }}" alt="Image" class="attachment-img">
+                {% endif %}
+            {% endwith %}
+            {% endif %}
+        </div>
+        </a>
+        {% empty %}
+            Тем пока нет. Будь первым!
+        {% endfor %}
     {% else %}
         <h3><a href="{% url 'user_login_menu' %}">Зарегистрируйтесь что бы создать трэд!<a/></h3>
         <hr>
         <h2>Темы:</h2>
         <ul>
             {% for thread in threads %}
-                <li><a href="{% url 'forum_thread_details' thread.id %}">{{ thread.title }}</a> ({{ thread.created_at|date:"d.m.Y H:i" }})</li>
+                <li><a href="{% url 'forum_thread_details' thread.id %}">{{ thread.title }}</a> <span class="created-time"> • {{ thread.created_at|timesince }} ago</span></li>
             {% empty %}
                 <li>Тем пока нет. Будь первым!</li>
             {% endfor %}
         </ul>
     {% endif %}
-    </div>
+</div>
 {% endblock %}
