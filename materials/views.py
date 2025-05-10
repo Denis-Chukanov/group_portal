@@ -1,10 +1,15 @@
 from django.shortcuts import render, redirect
-from django.views.generic import DetailView, ListView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from auth_sys.mixins import UserIsStudentMixin
+from auth_sys.mixins import UserIsStudentMixin, UserIsModeratorMixin
 from materials import models
 from django.contrib.auth.decorators import login_required
 from auth_sys.decorators import is_student
+from materials import forms
+from django.core.paginator import Paginator
+from materials.decorators import is_comment_owner
+from materials.mixins import UserIsSubjectOwnerMixin
 
 
 # Create your views here.
@@ -47,7 +52,85 @@ class MaterialList(LoginRequiredMixin, UserIsStudentMixin, ListView):
         return context
 
 
-class MaterialDetailView(LoginRequiredMixin, UserIsStudentMixin, DetailView):
-    model = models.Material
-    template_name = "materials/material_details.html"
-    context_object_name = "material"
+@login_required
+@is_student
+def material_details(request, pk):
+    material = models.Material.objects.get(pk=pk)
+    comments = models.Comment.objects.filter(material=material)
+    if request.method == "POST":
+        comment_form = forms.CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.author = request.user
+            comment.material = material
+            comment.save()
+        return redirect("material_details", pk=comment.material.pk)
+
+    paginator = Paginator(comments, 8)
+    page_number = request.GET.get("page")
+    page_comments = paginator.get_page(page_number)
+    context = {
+        "material": material,
+        "comment_form": forms.CommentForm,
+        "comments": page_comments,
+    }
+
+    return render(request,
+                  "materials/material_details.html",
+                  context)
+
+
+@login_required
+@is_comment_owner
+def comment_update(request, pk):
+    comment = models.Comment.objects.get(pk=pk)
+    material_pk = comment.material.pk
+    material = models.Material.objects.get(pk=material_pk)
+    comments = models.Comment.objects.filter(material=material)
+    if request.method == "POST":
+        comment_form = forms.CommentForm(request.POST, instance=comment)
+        if comment_form.is_valid():
+            comment = comment_form.save()
+            return redirect("material_details", pk=comment.material.pk)
+
+    paginator = Paginator(comments, 8)
+    page_number = request.GET.get("page")
+    page_comments = paginator.get_page(page_number)
+    context = {
+        "material": material,
+        "comment_form": forms.CommentForm(instance=comment),
+        "comments": page_comments,
+    }
+
+    return render(request,
+                  "materials/material_details.html",
+                  context)
+
+
+@login_required
+@is_comment_owner
+def comment_delete(request, pk):
+    comment = models.Comment.objects.get(pk=pk)
+    material_pk = comment.material.pk
+    comment.delete()
+    return redirect("material_details", pk=material_pk)
+
+
+class SubjectUpdateForm(LoginRequiredMixin, UserIsSubjectOwnerMixin,
+                        UpdateView):
+    model = models.Subject
+    form_class = forms.SubjectForm
+    template_name = "materials/material_update_form.html"
+    success_url = reverse_lazy("news_list")
+
+
+class SubjectCreateForm(LoginRequiredMixin, UserIsModeratorMixin,
+                        CreateView):
+    model = models.Subject
+    form_class = forms.SubjectForm
+    template_name = "materials/material_create_form.html"
+    success_url = reverse_lazy("news_list")
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)

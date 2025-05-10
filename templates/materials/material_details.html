@@ -1,22 +1,49 @@
 {% extends 'base.html' %}
 
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
+{% endblock %}
+
 {% block content %}
 <h1>{{ material.name }}</h1>
 <small>{{ material.subject.owner.first_name }} {{ material.subject.owner.last_name }} {{ material.changed_at }}</small>
 
-{% for investment in material.investments %}
-    {% if investment.adress is not None %}
+<div>
+{% for investment in material.investments.all %}
+    {% if investment.adress %}
         {% if investment.is_youtube %}
             <iframe src="https://youtube.com/embed/{{ investment.get_youtube_scr }}"
                 allowfullscreen
                 scrolling="no"
                 allow="accelerometer *; clipboard-write *; encrypted-media *; gyroscope *; picture-in-picture *; web-share *;">
-            </iframe>
+            </iframe><br>
+        {% else %}
+            <a href="{% url 'investment_details' pk=investment.pk %}">{{ investment.get_domen }}</a><br>
         {% endif %}
-        <a href="{% url 'investment_details' pk=investment.pk %}">{{ investment.adress }}</a>
     {% else %}
-        <a href="{% url 'investment_details' pk=investment.pk %}">{{ investment.media }}</a>
+        <a href="{% url 'investment_details' pk=investment.pk %}">{{ investment.get_filename }}</a><br>
     {% endif %}
 {% endfor %}
+</div>
+<hr>
+<div class="">
+    <form method="post" action="{% url 'material_details' pk=material.pk %}">
+        {% csrf_token %}
+        {{ comment_form }}
+        <button type="submit">Comment</button>
+    </form>
+    {% for comment in comments %}
+        <h6>{{ comment.author.username }}
+            {{ comment.created_at }}
+        </h6>
+        <p>{{ comment.content }}</p>
+        <a href="{% url 'comment_update' pk=comment.pk %}?page=1">Edit</a>
+        <a href="{% url 'comment_delete' pk=comment.pk %}?page=1">Delete</a>
+    {% endfor %}<br>
+    {% for page_num in comments.paginator.page_range %}
+        <a href="?page={{ page_num }}">{{ page_num }} </a>
+    {% endfor %}
+</div>
 
 {% endblock %}

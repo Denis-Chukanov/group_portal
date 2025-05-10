@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'gallery',
     'voting',
     'calendarapp',
-    'markdownify',
 ]
 
 MIDDLEWARE = [

@@ -47,6 +47,7 @@ class Comment(models.Model):
         return f"{self.author} at {self.created_at}"
 
     class Meta:
+        ordering = ("-created_at", )
         verbose_name = "comment"
         verbose_name_plural = "comments"
 
@@ -67,6 +68,12 @@ class Investment(models.Model):
                 return urlparse(self.adress)[2][1:]
             case "www.youtube.com":
                 return urlparse(self.adress)[4].split("=")[1]
+
+    def get_domen(self):
+        return urlparse(self.adress)[1]
+
+    def get_filename(self):
+        return self.media.name.split("/")[-1]
 
     def __str__(self):
         return f"{self.media}{self.adress}"
