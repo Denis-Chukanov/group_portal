@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Gallery of {{ viewed_user.username }}</h1>
+
+    {% for image in images %}
+    <div class="gallery-item">
+        {% if image.image %}
+            <img src="{{ image.image.url }}" alt="{{ image.title }}">
+        {% else %}
+            <p><em>Нет изображения</em></p>
+        {% endif %}
+        <h3>{{ image.title }}</h3>
+    </div>
+    
+{% endfor %}
+{% endblock %}
