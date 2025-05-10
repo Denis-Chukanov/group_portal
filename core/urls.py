@@ -30,4 +30,5 @@ urlpatterns = [
     path('events/', include('events.urls')),
     path('voting/', include('voting.urls')),
     path('calendarapp/', include('calendarapp.urls')),
+    path('gallery/', include('gallery.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

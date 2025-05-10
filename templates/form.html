@@ -1,20 +1,21 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<div class="form-wrapper">
-    <h2 class="form-title">Login</h2>
-    <form method="post" class="styled-form" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% for field in form %}
-            <div class="form-field">
-                {{ field.label_tag }}
-                {{ field }}
-                <div class="field-error">{{ field.errors }}</div>
-            </div>
-        {% endfor %}
-        <button type="submit" class="auth-btn">
-            {% block button %}{% endblock %}
-        </button>
-    </form>
+<div class="auth-content">
+    <div class="form-wrapper">
+        <h2 class="form-title">Login</h2>
+        <form method="post" class="styled-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-field">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    <div class="field-error">{{ field.errors }}</div>
+                </div>
+            {% endfor %}
+            <button type="submit" class="auth-btn">
+                {% block button %}{% endblock %}
+            </button>
+        </form>
+    </div>
 </div>
 {% endblock %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import views
 from django.views.generic import DeleteView
 from django.contrib.auth.models import User
@@ -43,23 +43,25 @@ def user_creation(request):
 @login_required
 def user_update(request):
     user = User.objects.get(pk=request.user.pk)
+    try:
+        portfolio = Portfolio.objects.get(user=user)
+    except Portfolio.DoesNotExist:
+        portfolio = Portfolio(user=user)
     if request.method == "POST":
         user_form = UserUpdateForm(request.POST, instance=user)
-        portfolio_form = PortfolioForm(request.POST, request.FILES)
-        if user_form.is_valid():
-            user_form = user_form.save()
-            if portfolio_form.is_valid():
-                login(request, user_form)
-                portfolio_form = portfolio_form.save(commit=False)
-                portfolio_form.user = request.user
-                portfolio_form.save()
-                return reverse_lazy("news_list")
-
+        portfolio_form = PortfolioForm(request.POST, request.FILES, instance=portfolio)
+        
+        if user_form.is_valid() and portfolio_form.is_valid():
+            user_form = user_form.save()    
+            portfolio_form = portfolio_form.save(commit=False)
+            portfolio_form.user = request.user
+            portfolio_form.save()
+            login(request, user_form)
+            return redirect("news_list")
         else:
             messages.error(request, user_form.errors)
             messages.error(request, portfolio_form.errors)
 
-    portfolio = Portfolio.objects.get(user=user)
     template_name = "auth_sys/user_update_form.html"
     context = {
         "form": UserUpdateForm(instance=user),
@@ -71,10 +73,10 @@ def user_update(request):
 
 
 def user_details(request, pk):
-    user = User.objects.get(id=pk)
-    portfolio = Portfolio.objects.get(user=user)
+    user_obj = get_object_or_404(User, id=pk)
+    portfolio = get_object_or_404(Portfolio, user=user_obj)
     context = {
-        "user": user,
+        "viewed_user": user_obj,    
         "portfolio": portfolio,
     }
     return render(request,

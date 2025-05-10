@@ -1,25 +1,32 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
-from auth_sys.decorators import is_moderator
+from django.views.generic.edit import CreateView
+from auth_sys.decorators import is_moderator, is_administrator
+from django.urls import reverse_lazy
 from .models import Thread
-from .forms import PostForm
+from .forms import PostForm, ThreadForm
+
 
 
 def forum_main_page(request):
     threads = Thread.objects.all().order_by('created_at')
     return render(request, 'forum/forum_main_page.html', {'threads': threads})
 
+def forum_redirect(request):
+    return render(request, 'forum/forum_redirect.html')
+
 @login_required
 def forum_create_thread(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         content = request.POST.get('content')
+        attachment = request.POST.get('attachment')
         if title:
-            Thread.objects.create(title=title, content=content, created_by=request.user)
+            Thread.objects.create(title=title, content=content, attachment=attachment, created_by=request.user)
             return redirect('forum_main_page')
         else:
-            return HttpResponse("Title is required.")
+            return HttpResponse("Title is required for post.")
     return redirect('forum_main_page')
 
 @login_required
@@ -45,10 +52,23 @@ def forum_thread_details(request, id):
     })
     
 @login_required
+def forum_thread_edit(request, id):
+    thread = get_object_or_404(Thread, id=id)
+    
+    if (request.user != thread.created_by or not is_moderator(request.user) or not is_administrator(request.user)):
+        return HttpResponseForbidden("You cannot edit this thread.")
+    
+    if request.method == 'POST':
+        return redirect('forum_main_page')
+    
+    return render(request, 'forum/forum_edit.html', {'thread': thread})
+    
+    
+@login_required
 def forum_thread_delete(request, id):
     thread = get_object_or_404(Thread, id=id)
     
-    if request.user != thread.created_by and not request.user.is_moderator:
+    if (request.user != thread.created_by or not is_moderator(request.user) or not is_administrator(request.user)):
         return HttpResponseForbidden("You cannot delete this thread.")
     
     if request.method == 'POST':
@@ -56,3 +76,15 @@ def forum_thread_delete(request, id):
         return redirect('forum_main_page')
     
     return render(request, 'forum/forum_confirm_delete.html', {'thread': thread})
+
+class ThreadCreationView(CreateView):
+    model = Thread
+    form_class = ThreadForm
+    template_name = "forum/forum_creation_thread.html"
+    success_url = reverse_lazy("forum_main_page")
+    
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user 
+        return super().form_valid(form)
+    
+
