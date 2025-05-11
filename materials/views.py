@@ -120,7 +120,7 @@ class SubjectUpdateForm(LoginRequiredMixin, UserIsSubjectOwnerMixin,
                         UpdateView):
     model = models.Subject
     form_class = forms.SubjectForm
-    template_name = "materials/material_update_form.html"
+    template_name = "materials/subject_update_form.html"
     success_url = reverse_lazy("news_list")
 
 
@@ -128,9 +128,43 @@ class SubjectCreateForm(LoginRequiredMixin, UserIsModeratorMixin,
                         CreateView):
     model = models.Subject
     form_class = forms.SubjectForm
-    template_name = "materials/material_create_form.html"
+    template_name = "materials/subject_create_form.html"
     success_url = reverse_lazy("news_list")
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
+
+
+def material_create(request):
+    if request.method == "POST":
+        material_form = forms.MaterialForm(request.POST)
+        media = request.POST.get("media")
+        adress = request.POST.get("adress")
+        material = material_form.save(commit=False)
+        request.session["investments"] = []
+        print(media)
+        if media != "":
+            media_object = models.Investment(media=media,
+                                             material=material)
+            request.session["investments"].append(media_object)
+        elif adress is not None:
+            adress_object = models.Investment(adress=adress,
+                                              material=material)
+            request.session["investments"].append(adress_object)
+        if material_form.is_valid():
+            material = material_form.save()
+            for investment in request.session["investments"]:
+                investment.save()
+            del request.session["investments"]
+            return redirect("material_details", pk=material.pk)
+        return redirect("material_create")
+
+    context = {
+        "material_form": forms.MaterialForm,
+    }
+    return render(
+        request,
+        "materials/material_create_form.html",
+        context
+    )

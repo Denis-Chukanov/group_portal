@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from urllib.parse import urlparse
+from django.templatetags.static import static
 
 
 # Create your models here.
@@ -74,6 +75,27 @@ class Investment(models.Model):
 
     def get_filename(self):
         return self.media.name.split("/")[-1]
+
+    def get_image(self):
+        format_to_image = {
+            "pdf": static("img/pdf.png"),
+            "mp4": static("img/video.png"),
+            "webm": static("img/video.png"),
+            "mp3": static("img/audio.png"),
+            "wav": static("img/audio.png"),
+            "ogg": static("img/audio.png"),
+            "jpg": static("img/photo.jpg"),
+            "jpeg": static("img/photo.jpg"),
+            "png": static("img/photo.jpg"),
+            "gif": static("img/photo.jpg"),
+            "webp": static("img/photo.jpg"),
+            "txt": static("img/txt.png"),
+        }
+        filetype = self.media.name.split(".")[-1].lower()
+        try:
+            return format_to_image[filetype]
+        except:
+            return static("img/code.png")
 
     def __str__(self):
         return f"{self.media}{self.adress}"

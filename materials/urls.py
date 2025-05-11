@@ -16,7 +16,8 @@ urlpatterns = [
     path("comment/delete/<int:pk>/", views.comment_delete,
          name="comment_delete"),
     path("subject/update/<int:pk>/", views.SubjectUpdateForm.as_view(),
-         name="subject/update"),
+         name="subject_update"),
     path("subject/create/", views.SubjectCreateForm.as_view(),
-         name="subject/create/"),
+         name="subject_create"),
+    path("create/", views.material_create, name="material_create"),
 ]

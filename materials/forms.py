@@ -7,6 +7,12 @@ class CommentForm(ModelForm):
         model = models.Comment
         fields = ("content", )
 
+    def __init__(self, *args, **kwargs):
+        super(CommentForm, self).__init__(*args, **kwargs)
+        content_field = self.fields["content"].widget.attrs
+        content_field.update({"rows": 4, "cols": 50,
+                              "class": "comment-content", })
+
 
 class SubjectForm(ModelForm):
     class Meta:
@@ -14,21 +20,7 @@ class SubjectForm(ModelForm):
         fields = ("name", "form", )
 
 
-class MediaForm(ModelForm):
+class MaterialForm(ModelForm):
     class Meta:
-        model = models.Investment
-        fields = ("media", )
-
-    def __init__(self):
-        media_field = self.fields["media"].widget.attrs
-        media_field.update({"required": ""})
-
-
-class AdressForm(ModelForm):
-    class Meta:
-        model = models.Investment
-        fields = ("adress", )
-
-    def __init__(self):
-        media_field = self.fields["adress"].widget.attrs
-        media_field.update({"required": ""})
+        model = models.Material
+        fields = ("name", "description", "subject", )

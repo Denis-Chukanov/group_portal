@@ -1,14 +1,19 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/materials/style.css' %}">{% endblock %}
 
 {% block content %}
 {% for subject in subjects %}
-    <div class="subject">
-        <h2>{{ subject.name }}</h2>
-        {% if subject.form is not None %}
-            <small>{{ subject.form }}</small>
-        {% endif %}
-        <div class="flex">
+    <div class="comment-body">
+        <div class="vertical small-line-height">
+            <h2>
+                <a href="{% url 'material_list' pk=subject.pk %}">{{ subject.name }}</a>
+            </h2>
+            {% if subject.form is not None %}
+                <small>{{ subject.form }}</small>
+            {% endif %}
+        </div>
+        <div class="subject-footer">
             <h3>{{ subject.owner.first_name }} {{ subject.owner.last_name }}
             {% if subject.owner.portfolio.image.url is not None %}
                 <img width="30px" height="30px" src="{{ portfolio.image.url }}" class="user-image">

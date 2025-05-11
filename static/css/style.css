@@ -851,3 +851,15 @@ label:has(input[required])::after {
     font-weight: bold;
     cursor: pointer;
 }
+
+.flex {
+    display: flex;
+}
+
+.width-70 {
+    width: 60%;
+}
+
+.width-30 {
+    width: 30% !important;
+}
