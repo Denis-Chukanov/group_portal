@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/materials/style.css' %}">{% endblock %}
+
+{% block content %}
+{% for project in projects %}
+    <div class="comment-body">
+        <div class="vertical small-line-height">
+            <h2>
+                <a href="{% url 'project_details' pk=project.pk %}">{{ project.name }}</a>
+            </h2>
+            <small><a style="color: black;">{{ project.author.first_name }} {{ project.author.last_name }}</a></small>
+            {% if project.author.portfolio.image.url is not None %}
+                <img width="15px" height="15px" src="{{ project.author.portfolio.image.url }}" class="user-image">
+            {% else %}
+                <img width="15px" height="15px" src="{% static 'img/no_photo.png' %}" class="user-image">
+            {% endif %}
+        </div>
+        <div class="subject-footer">
+            <h3>{{ project.description }}</h3>
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}

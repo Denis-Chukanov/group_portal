@@ -2,7 +2,7 @@
 {% block content %}
 <div class="auth-content">
     <div class="form-wrapper">
-        <h2 class="form-title">Create material</h2>
+        <h2 class="form-title">Step 1: Create material</h2>
         <form method="post" class="styled-form" action="{% url 'material_create' %}">
             {% csrf_token %}
             {% for field in material_form %}
@@ -12,22 +12,6 @@
                     <div class="field-error">{{ field.errors }}</div>
                 </div>
             {% endfor %}
-            <form method="post" class="styled-form" enctype="multipart/form-data" action="material_create">
-                {% csrf_token %}
-                <div class="form-field flex">
-                    <label for="media">Add file</label>
-                    <input type="file" id="media" name="media" class="width-70">
-                    <button type="submit" class="auth-btn" class="width-30">Add file</button>
-                </div>
-            </form>
-            <form method="post" class="styled-form" enctype="multipart/form-data" action="{% url 'material_create' %}">
-                {% csrf_token %}
-                <div class="form-field flex">
-                    <label name="adress">
-                    <input type="url" id="adress" name="adress">
-                    <button type="submit" class="auth-btn">Add url</button>
-                </div>
-            </form>
             <button type="submit" class="auth-btn">Add material</button>
         </form>
     </div>

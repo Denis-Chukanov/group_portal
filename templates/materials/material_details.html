@@ -11,6 +11,8 @@
     <small>{{ material.subject.owner.first_name }} {{ material.subject.owner.last_name }} {{ material.changed_at }}</small>
 </div>
 <div class="empty"></div>
+<p>{{ material.description }}</p>
+<div class="empty"></div>
 
 <div>
 {% for investment in material.investments.all %}
@@ -47,8 +49,8 @@
     {% for comment in comments %}
         <div class="comment-body">
             <div class="comment-header">
-                <h6 class="left">{{ comment.author.username }}</h6>
-                <h6 class="right">{{ comment.created_at }}</h6>
+                <h6>{{ comment.author.username }}</h6>
+                <h6>{{ comment.created_at }}</h6>
             </div>
             <p>{{ comment.content }}</p>
             <a href="{% url 'comment_update' pk=comment.pk %}?page=1" class="comment-button">Edit</a>

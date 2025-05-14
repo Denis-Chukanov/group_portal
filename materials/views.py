@@ -5,11 +5,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from auth_sys.mixins import UserIsStudentMixin, UserIsModeratorMixin
 from materials import models
 from django.contrib.auth.decorators import login_required
-from auth_sys.decorators import is_student
+from auth_sys.decorators import is_student, is_moderator
 from materials import forms
 from django.core.paginator import Paginator
 from materials.decorators import is_comment_owner
 from materials.mixins import UserIsSubjectOwnerMixin
+from django.shortcuts import get_object_or_404
 
 
 # Create your views here.
@@ -83,28 +84,29 @@ def material_details(request, pk):
 @login_required
 @is_comment_owner
 def comment_update(request, pk):
-    comment = models.Comment.objects.get(pk=pk)
-    material_pk = comment.material.pk
-    material = models.Material.objects.get(pk=material_pk)
+    comment = get_object_or_404(models.Comment, pk=pk)
+    material = comment.material
     comments = models.Comment.objects.filter(material=material)
+
     if request.method == "POST":
         comment_form = forms.CommentForm(request.POST, instance=comment)
         if comment_form.is_valid():
-            comment = comment_form.save()
-            return redirect("material_details", pk=comment.material.pk)
+            comment_form.save()
+            return redirect("material_details", pk=material.pk)
+    else:
+        comment_form = forms.CommentForm(instance=comment)
 
     paginator = Paginator(comments, 8)
     page_number = request.GET.get("page")
     page_comments = paginator.get_page(page_number)
+
     context = {
         "material": material,
-        "comment_form": forms.CommentForm(instance=comment),
+        "comment_form": comment_form,
         "comments": page_comments,
     }
 
-    return render(request,
-                  "materials/material_details.html",
-                  context)
+    return render(request, "materials/material_details.html", context)
 
 
 @login_required
@@ -143,7 +145,6 @@ def material_create(request):
         adress = request.POST.get("adress")
         material = material_form.save(commit=False)
         request.session["investments"] = []
-        print(media)
         if media != "":
             media_object = models.Investment(media=media,
                                              material=material)
@@ -157,7 +158,7 @@ def material_create(request):
             for investment in request.session["investments"]:
                 investment.save()
             del request.session["investments"]
-            return redirect("material_details", pk=material.pk)
+            return redirect("investment_create", pk=material.pk)
         return redirect("material_create")
 
     context = {
@@ -167,4 +168,33 @@ def material_create(request):
         request,
         "materials/material_create_form.html",
         context
+    )
+
+
+@login_required
+@is_moderator
+def investsments_create(request, pk):
+    if request.method == "POST":
+        media = request.FILES.get("media")
+        adress = request.POST.get("adress")
+        material = models.Material.objects.get(pk=pk)
+        if media != "":
+            media_object = models.Investment.objects
+            media_object.create(media=media,
+                                material=material)
+        elif adress is not None:
+            adress_object = models.Investment.objects
+            print(adress)
+            adress_object.create(adress=adress,
+                                 material=material)
+        return redirect("investment_create", pk=material.pk)
+
+    context = {
+        "pk": pk,
+    }
+
+    return render(
+        request,
+        "materials/investment_create_form.html",
+        context,
     )

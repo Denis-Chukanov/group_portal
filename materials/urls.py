@@ -20,4 +20,6 @@ urlpatterns = [
     path("subject/create/", views.SubjectCreateForm.as_view(),
          name="subject_create"),
     path("create/", views.material_create, name="material_create"),
+    path("create/<int:pk>/investments/", views.investsments_create,
+         name="investment_create")
 ]

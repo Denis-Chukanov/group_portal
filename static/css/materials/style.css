@@ -82,6 +82,7 @@ iframe {
 .comment-header {
     box-shadow: 0.6em 0.6em 2em rgba(101, 146, 189, 0.5);
     display: flex;
+    justify-content: space-between;
 }
 
 .comment-button {
@@ -89,10 +90,3 @@ iframe {
     color: lightseagreen;
 }
 
-.right {
-    justify-content: flex-start;
-}
-
-.left {
-    justify-content: flex-end;
-}
