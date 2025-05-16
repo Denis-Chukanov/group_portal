@@ -1,0 +1,30 @@
+{% load static %} 
+{% if request.user.is_authenticated %}
+    <div class="sidebar" id="sidebar">
+        <button class="theme-switch"></button>
+        <ul>
+            <li><a href="{% url 'logout' %}">🔐 Logout</a></li>
+            <li>⚙️ Settings(🚧)</li>
+            <li><a href="{% url 'announcements' %}">📣 Announcements</a></li>
+            <li><a href="{% url 'forum_main_page' %}">💬 Forum</a></li>
+            <li><a href="{% url 'forum_main_page' %}">📖 Diary(🚧)</a></li>
+            <li><a href="{% url 'news_list' %}">📰 News</a></li>
+            <li><a href="#">👨‍🎓 profile(🚧)</a></li>
+            <li><a href="{% url 'voting:poll_list' %}">🗳️ Голосування</a></li>
+        </ul>
+    </div>
+{% else %}
+    <div class="sidebar" id="sidebar">
+        <button class="theme-switch"></button>
+        <ul>
+            <li><a href="{% url 'user_login_menu' %}">🔐 Login</a></li>
+            <li>⚙️ Settings(🚧)</li>
+            <li><a href="{% url 'announcements' %}">📣 Announcements</a></li>
+            <li><a href="{% url 'forum_main_page' %}">💬 Forum</a></li>
+            <li><a href="{% url 'forum_main_page' %}">📖 Diary(🚧)</a></li>
+            <li><a href="{% url 'news_list' %}">📰 News</a></li>
+        </ul>
+    </div>
+{% endif %}
+
+<button class="toggle-btn" onclick="toggleSidebar()">☰</button>
