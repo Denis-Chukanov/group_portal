@@ -45,8 +45,10 @@ INSTALLED_APPS = [
     'diary',
     'announcement',
     'news',
+    'events',
     'gallery',
     'voting',
+    'calendarapp',
 ]
 
 MIDDLEWARE = [

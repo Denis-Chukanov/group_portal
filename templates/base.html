@@ -1,13 +1,18 @@
 <html lang="en">
+{% include 'calendarapp/event_calendar.html' %}
+
 <head>
     <meta charset="UTF-8">
     <title>Group project</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    {% block css %}{% endblock %}
 </head>
 <body>
-    {% include "side_menu.html" %}
+    {% include "sidebar.html" %}
     <div class="main-content" id="main-content">
         {% block content %}
         {% endblock %}
@@ -17,18 +22,17 @@
 <div class="footer-content">
     <p>© 2025 Group Project. All rights reserved.</p>
     <nav class="footer-nav">
-        <ul>
-            <li>About</li>
-            <li>Contact</li>
-            <li>Privacy Policy</li>
-            <li>Terms of Service</li>
-        </ul>
+    <ul>
+        <li>About</li>
+        <li>Contact</li>
+        <li>Privacy Policy</li>
+        <li>Terms of Service</li>
+    </ul>
     </nav>
 </div>
 </footer>
 
-
-                <!-- Тут скрипт для сайдбара если что, так что руками не трогать, писать Роману есил что-->
+                <!-- Тут скрипт для ВСЕГО если что, так что руками не трогать, писать Роману если что-->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const sidebar = document.getElementById("sidebar");
@@ -41,7 +45,7 @@
             sidebar.classList.add("collapsed");
             mainContent.style.marginLeft = "0px";
         } else {
-            mainContent.style.marginLeft = "250px";
+            mainContent.style.marginLeft = "125px";
         }
     
         setTimeout(() => {
@@ -50,6 +54,7 @@
         }, 50);
     });
     
+
     function toggleSidebar() {
         const sidebar = document.getElementById("sidebar");
         const mainContent = document.getElementById("main-content");
@@ -58,7 +63,7 @@
         if (sidebar.classList.contains("collapsed")) {
             mainContent.style.marginLeft = "0px";
         } else {
-            mainContent.style.marginLeft = "250px";
+            mainContent.style.marginLeft = "125px";
         }
     
         localStorage.setItem("sidebarCollapsed", sidebar.classList.contains("collapsed"));
@@ -86,6 +91,64 @@
         themeSwitch.classList.remove('dark');
         }
     }
+
+
+    const titleInput = document.getElementById('title');
+    const titleCounter = document.getElementById('title-char-count');
+    const titleMaxLength = titleInput.maxLength;
+  
+    titleInput.addEventListener('input', () => {
+      const remaining = titleMaxLength - titleInput.value.length;
+      titleCounter.textContent = ` ${remaining}/300`;
+    });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImage");
+        const closeBtn = document.getElementsByClassName("close")[0];
+
+        document.querySelectorAll(".gallery-item img").forEach(img => {
+            img.addEventListener("click", function () {
+                modal.style.display = "block";
+                modalImg.src = this.src;
+            });
+        });
+
+        closeBtn.onclick = function () {
+            modal.style.display = "none";
+        };
+
+        modal.onclick = function (event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        };
+    });
+
+    
+    function wrapText(before, after) {
+        const textarea = document.getElementById('content');
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const selected = textarea.value.substring(start, end);
+        const replacement = before + selected + after;
+    
+        textarea.setRangeText(replacement, start, end, 'end');
+        textarea.focus();
+    }
+
+    const simplemde = new SimpleMDE({
+        element: document.getElementById("content"),
+        spellChecker: false,
+        status: false,
+        toolbar: [
+          "bold", "italic", "strikethrough", "heading", "|",
+          "unordered-list", "ordered-list", "|",
+          "link", "preview", "guide"
+        ],
+    });
+
 </script>
 </body>
 </html>

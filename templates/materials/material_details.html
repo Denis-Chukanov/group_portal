@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="vertical">
+    <h1>{{ material.name }}</h1>
+    <small>{{ material.subject.owner.first_name }} {{ material.subject.owner.last_name }} {{ material.changed_at }}</small>
+</div>
+<div class="empty"></div>
+<p>{{ material.description }}</p>
+<div class="empty"></div>
+
+<div>
+{% for investment in material.investments.all %}
+    {% if investment.adress %}
+        {% if investment.is_youtube %}
+            <iframe src="https://youtube.com/embed/{{ investment.get_youtube_scr }}"
+                allowfullscreen
+                scrolling="no"
+                allow="accelerometer *; clipboard-write *; encrypted-media *; gyroscope *; picture-in-picture *; web-share *;">
+            </iframe><br>
+        {% else %}
+            <div class="investment">
+                <img class="filetype" src="{% static 'img/url.png' %}">
+                <a href="{% url 'investment_details' pk=investment.pk %}">{{ investment.get_domen }}</a>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="investment">
+            <img class="filetype" src="{{ investment.get_image }}">
+            <a href="{% url 'investment_details' pk=investment.pk %}">{{ investment.get_filename }}</a>
+        </div>
+    {% endif %}
+{% endfor %}
+</div>
+<hr>
+<div class="">
+    <form class="comment-body" method="post" action="{% url 'material_details' pk=material.pk %}">
+        {% csrf_token %}
+        {% for field in comment_form %}
+            {{ field }}
+        {% endfor %}
+        <button type="submit" class="submit-comment">⋟</button>
+    </form>
+    {% for comment in comments %}
+        <div class="comment-body">
+            <div class="comment-header">
+                <h6>{{ comment.author.username }}</h6>
+                <h6>{{ comment.created_at }}</h6>
+            </div>
+            <p>{{ comment.content }}</p>
+            <a href="{% url 'comment_update' pk=comment.pk %}?page=1" class="comment-button">Edit</a>
+            <a href="{% url 'comment_delete' pk=comment.pk %}?page=1" class="comment-button">Delete</a>
+        </div>
+    {% endfor %}<br>
+    {% for page_num in comments.paginator.page_range %}
+        <a href="?page={{ page_num }}">{{ page_num }} </a>
+    {% endfor %}
+</div>
+
+{% endblock %}

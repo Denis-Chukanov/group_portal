@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="auth-container">
-    <a href="{% url 'login' %}" class="auth-btn">Sign In</a>
-    <a href="{% url 'register' %}" class="auth-btn">Sign Up</a>
+<div class="auth-content">
+    <div class="auth-container">
+        <a href="{% url 'login' %}" class="auth-btn">Sign In</a>
+        <a href="{% url 'register' %}" class="auth-btn">Sign Up</a>
+    </div>
 </div>
 {% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="vertical">
+    <h1>{{ project.name }}</h1>
+    <small>
+        <a href="{% url 'project_list' %}?user-id={{ project.author.pk }}">
+            {{ project.author.first_name }} {{ project.author.last_name }}</a>
+    </small>
+    {% if project.author.portfolio.image.url is not None %}
+        <img width="30px" height="30px" src="{{ portfolio.image.url }}" class="user-image">
+    {% else %}
+        <img width="30px" height="30px" src="{% static 'img/no_photo.png' %}" class="user-image">
+    {% endif %}
+</div>
+<div class="empty"></div>
+
+<div>
+    <p>{{ project.description }}</p>
+</div>
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="auth-content">
+    <div class="form-wrapper">
+        <h2 class="form-title">Step 1: Create material</h2>
+        <form method="post" class="styled-form" action="{% url 'material_create' %}">
+            {% csrf_token %}
+            {% for field in material_form %}
+                <div class="form-field">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    <div class="field-error">{{ field.errors }}</div>
+                </div>
+            {% endfor %}
+            <button type="submit" class="auth-btn">Add material</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
