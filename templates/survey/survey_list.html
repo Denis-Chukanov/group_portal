@@ -1,0 +1,10 @@
+<h1>Опросы от Администрации</h1>
+<ul>
+    {% for survey in surveys %}
+        <li>
+            <a href="{% url 'survey_detail' survey.pk %}">{{ survey.title }}</a> — {{ survey.created_at|date:"d.m.Y" }}
+        </li>
+    {% empty %}
+        <li>Опросов пока нет.</li>
+    {% endfor %}
+</ul>
