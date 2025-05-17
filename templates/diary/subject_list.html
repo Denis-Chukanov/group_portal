@@ -1,0 +1,8 @@
+{% extends 'base.html'%}
+{% block content%}
+{% for subject in subjects.all %}
+<div>
+    <a href="{% url 'grades_by_subject' subject.pk %}">{{ subject.title }}</a>
+</div>
+{% endfor %}
+{% endblock %}

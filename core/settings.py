@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'voting',
     'calendarapp',
     'markdownify',
+    'surveys',
 ]
 
 MIDDLEWARE = [
