@@ -3,32 +3,54 @@
 {% block content %}
 <h1>{{ survey.title }}</h1>
 <p>{{ survey.description }}</p>
+<p><strong>Лимит ответов:</strong> {{ survey.max_comments }}</p>
+
+{% if survey.is_closed %}
+    <p style="color:red;"><strong>Опрос закрыт — достигнут лимит.</strong></p>
+{% endif %}
 
 <h2>Комментарии</h2>
 <ul>
-    {% for comment in comments %}
-        <li><strong>{{ comment.user.username }}:</strong> {{ comment.comment }} <em>({{ comment.created_at }})</em></li>
-    {% empty %}
-        <li>Комментариев пока нет.</li>
-    {% endfor %}
+{% for comment in comments %}
+  <li>
+      <strong>{{ comment.user.username }}</strong>:
+      {{ comment.comment }}
+      <em>({{ comment.created_at|date:"d.m.Y H:i" }})</em>
+      — <span>{{ comment.likes }}</span>
+      {% if user.is_authenticated %}
+          <form method="post" action="{% url 'toggle_like' survey.pk comment.id %}" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit">
+                  {% if user in comment.liked_by.all %}
+                      👍 Убрать
+                  {% else %}
+                      👍 Лайк
+                  {% endif %}
+              </button>
+          </form>
+      {% endif %}
+  </li>
+{% empty %}
+  <li>Комментариев пока нет.</li>
+{% endfor %}
 </ul>
 
 {% if user.is_authenticated %}
-    {% if existing_comment %}
-        <p><em>Вы уже оставили комментарий к этому опросу.</em></p>
-    {% else %}
-        <h3>Оставить мнение:</h3>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Отправить</button>
-        </form>
-    {% endif %}
+  {% if survey.is_closed %}
+      <p><em>Новые ответы не принимаются.</em></p>
+  {% elif existing_comment %}
+      <p><em>Вы уже оставили комментарий.</em></p>
+  {% else %}
+      <h3>Оставить мнение</h3>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Отправить</button>
+      </form>
+  {% endif %}
 {% else %}
-    <p><a href="{% url 'login' %}">Войдите</a>, чтобы оставить комментарий.</p>
+  <p><a href="{% url 'login' %}">Войдите</a>, чтобы оставить комментарий.</p>
 {% endif %}
 
-{% if error %}
-    <p style="color:red;">{{ error }}</p>
-{% endif %}
+{% if error %}<p style="color:red;">{{ error }}</p>{% endif %}
 {% endblock %}
