@@ -2,7 +2,7 @@
 {% block content %}
 <div class="auth-content">
     <div class="form-wrapper">
-        <h2 class="form-title">Login</h2>
+        <h2 class="form-title">{% block title %}{% endblock %}</h2>
         <form method="post" class="styled-form" enctype="multipart/form-data">
             {% csrf_token %}
             {% for field in form %}

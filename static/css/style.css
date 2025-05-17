@@ -738,6 +738,18 @@ btn
     transition: opacity 0.3s ease;
 }
 
+.sidebar ul summary {
+    padding: 5px;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar ul summary span {
+    display: block;
+    width: 100%;
+    color: white;
+    text-decoration: none;
+}
+
 .sidebar ul li a,
 .sidebar ul li span {
     display: block;
@@ -919,4 +931,16 @@ label:has(input[required])::after {
     font-size: 40px;
     font-weight: bold;
     cursor: pointer;
+}
+
+.flex {
+    display: flex;
+}
+
+.width-70 {
+    width: 60%;
+}
+
+.width-30 {
+    width: 30% !important;
 }

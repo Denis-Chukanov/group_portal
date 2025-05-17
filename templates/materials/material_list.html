@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}<link rel="stylesheet" href="{% static 'css/materials/style.css' %}">{% endblock %}
+
+{% block content %}
+<div class="subject-header block">
+    <h1>{{ subject.name }}</h1>
+    <h4>{{ subject.owner.first_name }} {{ subject.owner.last_name }}</h4>
+    <a href="{% url 'subject_update' subject.pk %}" class="text-small blue">Update</a>
+</div>
+{% for material in materials %}
+    <div class="material-body">
+        <div class="vertical">
+            <h2>
+                <a href="{% url 'material_details' pk=material.pk %}">{{ material.name }}</a>
+            </h2>
+            <small>{{ material.changed_at }}</small>
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}

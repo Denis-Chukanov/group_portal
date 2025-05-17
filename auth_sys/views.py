@@ -49,10 +49,11 @@ def user_update(request):
         portfolio = Portfolio(user=user)
     if request.method == "POST":
         user_form = UserUpdateForm(request.POST, instance=user)
-        portfolio_form = PortfolioForm(request.POST, request.FILES, instance=portfolio)
-        
+        portfolio_form = PortfolioForm(request.POST, request.FILES,
+                                       instance=portfolio)
+
         if user_form.is_valid() and portfolio_form.is_valid():
-            user_form = user_form.save()    
+            user_form = user_form.save()
             portfolio_form = portfolio_form.save(commit=False)
             portfolio_form.user = request.user
             portfolio_form.save()
@@ -76,7 +77,7 @@ def user_details(request, pk):
     user_obj = get_object_or_404(User, id=pk)
     portfolio = get_object_or_404(Portfolio, user=user_obj)
     context = {
-        "viewed_user": user_obj,    
+        "viewed_user": user_obj,
         "portfolio": portfolio,
     }
     return render(request,

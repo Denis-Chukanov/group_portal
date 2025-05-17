@@ -28,13 +28,13 @@
             </div>
         {% endfor %}
 
-        {% if messages %}
-            <div class="form-messages">
-                {% for message in messages %}
-                    <p class="message">{{ message }}</p>
-                {% endfor %}
-            </div>
-        {% endif %}
+            {% if messages %}
+                <div class="form-messages">
+                    {% for message in messages %}
+                        <p class="message">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
             <button type="submit" class="auth-btn">Update</button>
         </form>
