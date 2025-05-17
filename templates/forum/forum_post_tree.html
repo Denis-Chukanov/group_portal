@@ -34,7 +34,7 @@
               {% csrf_token %}
               <div class="form-group">
                 {{ form.content.errors }}
-                {{ form.content|linebreaks }}
+                {{ form.content }}
               </div>
               <label class="custom-file-upload">  
                 📎 Attach file

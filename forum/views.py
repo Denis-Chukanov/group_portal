@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView
 from auth_sys.decorators import is_moderator, is_administrator
 from django.urls import reverse_lazy
+import markdown
 from .models import Thread
 from .forms import PostForm, ThreadForm
 
