@@ -8,7 +8,6 @@ from .models import Thread
 from .forms import PostForm, ThreadForm
 
 
-
 def forum_main_page(request):
     threads = Thread.objects.all().order_by('created_at')
     return render(request, 'forum/forum_main_page.html', {'threads': threads})
@@ -53,15 +52,18 @@ def forum_thread_details(request, id):
     
 @login_required
 def forum_thread_edit(request, id):
-    thread = get_object_or_404(Thread, id=id)
+    thread = get_object_or_404(Thread, id=id, created_by=request.user)
     
-    if (request.user != thread.created_by or not is_moderator(request.user) or not is_administrator(request.user)):
-        return HttpResponseForbidden("You cannot edit this thread.")
     
-    if request.method == 'POST':
-        return redirect('forum_main_page')
-    
-    return render(request, 'forum/forum_edit.html', {'thread': thread})
+    if request.method == "POST":
+        form = ThreadForm(request.POST, request.FILES, instance=thread)
+        if form.is_valid():
+            form.save()
+            return redirect('forum_thread_details', id=thread.id)
+    else:
+        form = ThreadForm(instance=thread)
+
+    return render(request, 'forum/forum_edit.html', {'form': form, 'thread': thread})
     
     
 @login_required
@@ -69,7 +71,7 @@ def forum_thread_delete(request, id):
     thread = get_object_or_404(Thread, id=id)
     
     if (request.user != thread.created_by or not is_moderator(request.user) or not is_administrator(request.user)):
-        return HttpResponseForbidden("You cannot delete this thread.")
+        return HttpResponse("You cannot delete this thread.")
     
     if request.method == 'POST':
         thread.delete()

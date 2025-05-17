@@ -1,16 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1>Gallery of {{ viewed_user.username }}</h1>
-
+    {% if request.user.portfolio.permission == "MODER" %}
+        <a href="{% url 'validate_images' request.user.pk %}" class="btn btn-primary" style="margin-bottom: 15px;">
+            Перейти к модерации изображений
+        </a>
+    {% endif %}
+    <div class="gallery-grid">
     {% for image in images %}
-    <div class="gallery-item">
-        {% if image.image %}
+        <div class="gallery-item {% if not image.is_approved %}unapproved{% endif %}">
             <img src="{{ image.image.url }}" alt="{{ image.title }}">
-        {% else %}
-            <p><em>Нет изображения</em></p>
-        {% endif %}
-        <h3>{{ image.title }}</h3>
-    </div>
-    
-{% endfor %}
+            <h3>{{ image.title }}</h3>
+            <p>{{ image.content }}</p>
+            {% if not image.is_approved %}
+                <p class="approval-status">Wait for approve</p>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>This user has not uploaded anything yet.</p>
+    {% endfor %}
+</div>
 {% endblock %}
