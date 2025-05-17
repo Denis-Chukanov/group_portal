@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block css %}<link rel="stylesheet" href="{% static 'css/materials/style.css' %}">{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/materials/style.css' %}">{% endblock %}
 
 {% block content %}
 {% for subject in subjects %}
-    <div class="comment-body">
+    <div class="material-body">
         <div class="vertical small-line-height">
             <h2>
                 <a href="{% url 'material_list' pk=subject.pk %}">{{ subject.name }}</a>

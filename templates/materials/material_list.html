@@ -6,6 +6,7 @@
 <div class="subject-header block">
     <h1>{{ subject.name }}</h1>
     <h4>{{ subject.owner.first_name }} {{ subject.owner.last_name }}</h4>
+    <a href="{% url 'subject_update' subject.pk %}" class="text-small blue">Update</a>
 </div>
 {% for material in materials %}
     <div class="material-body">

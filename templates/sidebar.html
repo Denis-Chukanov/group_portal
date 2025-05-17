@@ -11,9 +11,24 @@
             <li><a href="{% url 'event_list' %}">📅 Events</a></li>
             <li><a href="{% url 'voting:poll_list' %}">🗳️ Голосування</a></li>
             <li><a href="{% url 'forum_main_page' %}">📖 Diary (🚧)</a></li>
-            <li>⚙️ Settings (🚧)</li>   
+            <details>
+                <summary>
+                    📝 Materials
+                </summary>
+                <ul>
+                    <li>
+                        <a href="{% url 'subject_list' %}">View subjects</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'subject_create' %}">Create subject</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'material_create' %}">Create material</a>
+                    </li>
+                </ul>
+              </details>
+            <li>⚙️ Settings (🚧)</li>
         </ul>
-        
     </div>
 {% else %}
     <div class="sidebar" id="sidebar">

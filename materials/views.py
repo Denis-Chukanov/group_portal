@@ -138,26 +138,13 @@ class SubjectCreateForm(LoginRequiredMixin, UserIsModeratorMixin,
         return super().form_valid(form)
 
 
+@login_required
+@is_moderator
 def material_create(request):
     if request.method == "POST":
         material_form = forms.MaterialForm(request.POST)
-        media = request.POST.get("media")
-        adress = request.POST.get("adress")
-        material = material_form.save(commit=False)
-        request.session["investments"] = []
-        if media != "":
-            media_object = models.Investment(media=media,
-                                             material=material)
-            request.session["investments"].append(media_object)
-        elif adress is not None:
-            adress_object = models.Investment(adress=adress,
-                                              material=material)
-            request.session["investments"].append(adress_object)
         if material_form.is_valid():
             material = material_form.save()
-            for investment in request.session["investments"]:
-                investment.save()
-            del request.session["investments"]
             return redirect("investment_create", pk=material.pk)
         return redirect("material_create")
 
@@ -173,28 +160,61 @@ def material_create(request):
 
 @login_required
 @is_moderator
+def material_update(request, pk):
+    material = models.Material.objects.get(pk=pk)
+    if request.method == "POST":
+        material_form = forms.MaterialForm(request.POST, instance=material)
+        if material_form.is_valid():
+            material = material_form.save()
+            return redirect("investment_create", pk=material.pk)
+        return redirect("material_create")
+
+    context = {
+        "material_form": forms.MaterialForm(instance=material),
+    }
+    return render(
+        request,
+        "materials/material_create_form.html",
+        context
+    )
+
+
+@login_required
+@is_moderator
 def investsments_create(request, pk):
+    material = models.Material.objects.get(pk=pk)
+    investments = models.Investment.objects.filter(material=material)
     if request.method == "POST":
         media = request.FILES.get("media")
         adress = request.POST.get("adress")
-        material = models.Material.objects.get(pk=pk)
-        if media != "":
+        if media:
             media_object = models.Investment.objects
             media_object.create(media=media,
                                 material=material)
         elif adress is not None:
             adress_object = models.Investment.objects
-            print(adress)
             adress_object.create(adress=adress,
                                  material=material)
         return redirect("investment_create", pk=material.pk)
 
     context = {
         "pk": pk,
+        "investments": investments,
     }
 
     return render(
         request,
-        "materials/investment_create_form.html",
+        "materials/investment_form.html",
         context,
     )
+
+
+@login_required
+@is_moderator
+def investsment_delete(request, pk):
+    investment = models.Investment.objects.get(pk=pk)
+    material = investment.material
+    if request.method == "POST":
+        models.Investment.delete(investment)
+
+    return redirect("investment_create", pk=material.pk)

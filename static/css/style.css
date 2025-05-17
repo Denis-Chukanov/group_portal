@@ -603,6 +603,18 @@ body.dark .created-comment-time {
     transition: opacity 0.3s ease;
 }
 
+.sidebar ul summary {
+    padding: 5px;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar ul summary span {
+    display: block;
+    width: 100%;
+    color: white;
+    text-decoration: none;
+}
+
 .sidebar ul li a,
 .sidebar ul li span {
     display: block;

@@ -32,6 +32,7 @@ class Material(models.Model):
         return self.name
 
     class Meta:
+        ordering = ("-changed_at", )
         verbose_name = "material"
         verbose_name_plural = "materials"
 
