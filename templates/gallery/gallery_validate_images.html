@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Image moderation</h1>
+
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% if images %}
+
+      {% for image in images %}
+          {% if image.image %}
+            <img src="{{ image.image.url }}" alt="{{ image.title }}">
+          {% endif %}
+          <h3>{{ image.title }}</h3>
+          <p>{{ image.content }}</p>
+
+          <form method="POST" style="display: inline;">
+            {% csrf_token %}
+            <input type="hidden" name="image_id" value="{{ image.id }}">
+            <button name="action" value="approve" class="btn btn-success">✅ Approve</button>
+            <button name="action" value="delete" class="btn btn-danger">🗑️ Decline</button>
+          </form>
+      {% endfor %}
+
+  {% else %}
+    <p>No images needing confirmation.</p>
+  {% endif %}
+{% endblock %}
