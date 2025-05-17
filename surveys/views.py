@@ -12,19 +12,28 @@ def survey_detail(request, pk):
     survey = get_object_or_404(Survey, pk=pk)
     comments = survey.comments.all()
 
+    existing_comment = SurveyComment.objects.filter(survey=survey, user=request.user).first()
+
+    error = None
+
     if request.method == 'POST':
-        form = SurveyCommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.user = request.user
-            comment.survey = survey
-            comment.save()
-            return redirect('survey_detail', pk=survey.pk)
+        if existing_comment:
+            error = "Вы уже оставили комментарий к этому опросу."
+        else:
+            form = SurveyCommentForm(request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.user = request.user
+                comment.survey = survey
+                comment.save()
+                return redirect('survey_detail', pk=survey.pk)
     else:
         form = SurveyCommentForm()
 
     return render(request, 'survey/survey_detail.html', {
         'survey': survey,
         'comments': comments,
-        'form': form
+        'form': form,
+        'existing_comment': existing_comment,
+        'error': error,
     })

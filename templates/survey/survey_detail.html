@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+
+{% block content %}
 <h1>{{ survey.title }}</h1>
 <p>{{ survey.description }}</p>
 
@@ -11,12 +14,21 @@
 </ul>
 
 {% if user.is_authenticated %}
-    <h3>Оставить мнение:</h3>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Отправить</button>
-    </form>
+    {% if existing_comment %}
+        <p><em>Вы уже оставили комментарий к этому опросу.</em></p>
+    {% else %}
+        <h3>Оставить мнение:</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Отправить</button>
+        </form>
+    {% endif %}
 {% else %}
     <p><a href="{% url 'login' %}">Войдите</a>, чтобы оставить комментарий.</p>
 {% endif %}
+
+{% if error %}
+    <p style="color:red;">{{ error }}</p>
+{% endif %}
+{% endblock %}

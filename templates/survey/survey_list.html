@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+
+{% block content %}
 <h1>Опросы от Администрации</h1>
 <ul>
     {% for survey in surveys %}
@@ -8,3 +11,4 @@
         <li>Опросов пока нет.</li>
     {% endfor %}
 </ul>
+{% endblock %}
