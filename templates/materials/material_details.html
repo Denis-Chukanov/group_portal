@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load markdownify %}
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
 {% endblock %}
@@ -11,7 +12,7 @@
     <small>{{ material.subject.owner.first_name }} {{ material.subject.owner.last_name }} {{ material.changed_at }}</small>
 </div>
 <div class="empty"></div>
-<p>{{ material.description }}</p>
+<p>{{ material.description|markdownify|linebreaks }}</p>
 <div class="empty"></div>
 
 <div>
@@ -26,13 +27,17 @@
         {% else %}
             <div class="investment">
                 <img class="filetype" src="{% static 'img/url.png' %}">
-                <a href="{% url 'investment_details' pk=investment.pk %}">{{ investment.get_domen }}</a>
+                <div class="investment-text">
+                    <a href="{% url 'investment_details' pk=investment.pk %}">{{ investment.get_domen }}</a>
+                </div>
             </div>
         {% endif %}
     {% else %}
         <div class="investment">
             <img class="filetype" src="{{ investment.get_image }}">
-            <a href="{% url 'investment_details' pk=investment.pk %}">{{ investment.get_filename }}</a>
+            <div class="investment-text">
+                <a href="{% url 'investment_details' pk=investment.pk %}">{{ investment.get_filename }}</a>
+            </div>
         </div>
     {% endif %}
 {% endfor %}

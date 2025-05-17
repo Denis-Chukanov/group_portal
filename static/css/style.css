@@ -16,6 +16,10 @@ a.text-red {
     color: #e53e3e;
 }
 
+.margin-top {
+    margin-top: 8%;
+}
+
 a.text-red:hover {
     color: #af1e1e;
 }

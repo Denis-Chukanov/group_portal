@@ -28,4 +28,5 @@ class MaterialForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(MaterialForm, self).__init__(*args, **kwargs)
         description_field = self.fields["description"].widget.attrs
-        description_field.update({"class": "content"})
+        description_field.update({"class": "content",
+                                  "id": "content"})

@@ -1,6 +1,7 @@
 {% load static %}
 <div class="post-list">
   {% for post in posts %}
+  <div class="margin-top">
     {% if post.parent == parent %}
         <div class="forum-author-info">
           <span class="creator-nickname-color">{% with post_creator=post.created_by %}</span>
@@ -38,5 +39,6 @@
         </div>
         {% include 'forum/forum_post_tree.html' with posts=posts parent=post form=form %}
     {% endif %}
+  </div>
   {% endfor %}
 </div>

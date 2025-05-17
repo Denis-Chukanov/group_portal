@@ -96,12 +96,15 @@
 
     const titleInput = document.getElementById('title');
     const titleCounter = document.getElementById('title-char-count');
-    const titleMaxLength = titleInput.maxLength;
-  
-    titleInput.addEventListener('input', () => {
-      const remaining = titleMaxLength - titleInput.value.length;
-      titleCounter.textContent = ` ${remaining}/300`;
-    });
+
+    if (titleInput && titleCounter) {
+        const titleMaxLength = titleInput.maxLength;
+
+        titleInput.addEventListener('input', () => {
+            const remaining = titleMaxLength - titleInput.value.length;
+            titleCounter.textContent = ` ${remaining}/300`;
+        });
+    }
 
 
     document.addEventListener("DOMContentLoaded", function () {
