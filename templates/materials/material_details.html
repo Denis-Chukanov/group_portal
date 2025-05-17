@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load markdownify %}
+{% load markdown_extras %}
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
 {% endblock %}
@@ -12,7 +13,7 @@
     <small>{{ material.subject.owner.first_name }} {{ material.subject.owner.last_name }} {{ material.changed_at }}</small>
 </div>
 <div class="empty"></div>
-<p>{{ material.description|markdownify|linebreaks }}</p>
+<p>{{ material.description|markdown_extras|markdownify|linebreaks }}</p>
 <div class="empty"></div>
 
 <div>

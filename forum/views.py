@@ -64,8 +64,8 @@ def forum_thread_edit(request, id):
         form = ThreadForm(instance=thread)
 
     return render(request, 'forum/forum_edit.html', {'form': form, 'thread': thread})
-    
-    
+
+
 @login_required
 def forum_thread_delete(request, id):
     thread = get_object_or_404(Thread, id=id)

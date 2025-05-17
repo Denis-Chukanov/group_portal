@@ -108,3 +108,7 @@ body.dark .comment-body {
 .blue {
     color: blue !important;
 }
+
+body.dark .blue {
+    color: darkgoldenrod !important;
+}
