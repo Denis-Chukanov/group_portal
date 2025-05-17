@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block content %}
     <h1>Your Gallery</h1>
     <form method="POST" enctype="multipart/form-data">
@@ -8,23 +7,25 @@
         <button type="submit">Upload Image</button>
     </form>
     <hr>
+
+    
+    
     <div class="gallery-grid">
-        {% for image in images %}
-            <div class="gallery-item">
-                {% if image.image %}
-                    <img src="{{ image.image.url }}" alt="{{ image.title }}">
-                {% else %}
-                    <p><em>Нет изображения</em></p>
-                {% endif %}
-                <h3>{{ image.title }}</h3>
-                <p>{{ image.content }}</p>
-            </div>
-        {% empty %}
-            <p>No images uploaded yet.</p>
-        {% endfor %}
-    </div>
-    <div id="imageModal" class="modal">
-        <span class="close">&times;</span>
-        <img class="modal-content" id="modalImage">
-    </div>
+    {% for image in images %}
+        <div class="gallery-item {% if not image.is_approved and image.created_by == request.user %}unapproved{% endif %}">
+            {% if image.image %}
+                <img src="{{ image.image.url }}" alt="{{ image.title }}">
+            {% else %}
+                <p><em>No image</em></p>
+            {% endif %}
+            <h3>{{ image.title }}</h3>
+            <p>{{ image.content }}</p>
+            {% if not image.is_approved and image.created_by == request.user %}
+                <p class="approval-status">Wait for approve</p>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>No images uploaded yet.</p>
+    {% endfor %}
+</div>
 {% endblock %}

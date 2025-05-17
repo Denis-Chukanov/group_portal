@@ -24,12 +24,13 @@ class PostForm(forms.ModelForm):
             raise forms.ValidationError("Повідомлення не може бути порожнім.")
         return content
 
+
 class ThreadForm(forms.ModelForm):
     class Meta:
         model = Thread
         fields = ['title', 'content', 'attachment']
         widgets = {
-            'title': forms.Textarea(),
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
             'content': forms.Textarea(attrs={
                 'placeholder': 'Напишіть короткий опис...',
                 'rows': 2,
