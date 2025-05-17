@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'gallery',
     'voting',
     'calendarapp',
+    'surveys',
 ]
 
 MIDDLEWARE = [
