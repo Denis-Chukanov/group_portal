@@ -1,0 +1,6 @@
+{% extends 'base.html'%}
+{% block content%}
+{% for grade in grades %}
+    <p>{{ grade.student }} --- {{ grade.grade }} --- {{grade.date}}</p>
+{% endfor %}
+{% endblock %}
