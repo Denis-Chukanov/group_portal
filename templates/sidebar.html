@@ -1,4 +1,3 @@
-
 {% load static %} 
 {% if request.user.is_authenticated %}
     <div class="sidebar" id="sidebar">
@@ -10,10 +9,10 @@
             <li><a href="{% url 'forum_main_page' %}">💬 Forum</a></li>
             <li><a href="{% url 'event_list' %}">📅 Events</a></li>
             <li><a href="{% url 'voting:poll_list' %}">🗳️ Голосування</a></li>
+            <li><a href="{% url 'survey_list' %}">📋 Survey</a></li> 
             <li><a href="{% url 'forum_main_page' %}">📖 Diary (🚧)</a></li>
             <li>⚙️ Settings (🚧)</li>   
         </ul>
-        
     </div>
 {% else %}
     <div class="sidebar" id="sidebar">
@@ -23,6 +22,7 @@
             <li><a href="{% url 'news_list' %}">📰 News</a></li>
             <li><a href="{% url 'forum_main_page' %}">💬 Forum</a></li>
             <li><a href="{% url 'event_list' %}">📅 Events</a></li>
+            <li><a href="{% url 'survey_list' %}">📋 Survey</a></li>
             <li><a href="{% url 'forum_main_page' %}">📖 Diary (🚧)</a></li>
             <li>⚙️ Settings (🚧)</li> 
         </ul>
