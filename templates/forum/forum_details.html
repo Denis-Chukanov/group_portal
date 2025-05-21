@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load markdownify %}
+{% load markdown_extras %}
 {% block content %}
 {% include "forum/forum_redirect.html" %}
    <div class="forum-main-content">
@@ -41,7 +42,7 @@
           {{ form.non_field_errors }}
           <div class="form-group">
             {{ form.content.errors }}
-            {{ form.content|linebreaks }}
+            {{ form.content }}
           </div>
           
           <label class="custom-file-upload">  
