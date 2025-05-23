@@ -1,5 +1,12 @@
 {% extends 'base.html'%}
 {% block content%}
+{% if request.user.portfolio.permission == "MODER" or request.user.portfolio.permission == "ADMIN"%}
+<form method="post" action="{% url 'create-grade' subject_id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Зберегти</button>
+</form>
+{% endif %}
 {% for grade in grades %}
     <p>{{ grade.student }} --- {{ grade.grade }} --- {{grade.date}}</p>
 {% endfor %}

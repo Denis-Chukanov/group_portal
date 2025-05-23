@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block content%}
-<p>{{request.user.portfolio.permission }}</p>
 {% if request.user.portfolio.permission == "MODER" or request.user.portfolio.permission == "ADMIN"%}
     <a href="{% url 'announcement-create'%}">Створити Оголошення</a>
 {% endif %}
