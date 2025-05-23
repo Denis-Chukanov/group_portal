@@ -8,6 +8,15 @@
 </form>
 {% endif %}
 {% for grade in grades %}
-    <p>{{ grade.student }} --- {{ grade.grade }} --- {{grade.date}}</p>
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <p>{{ grade.student }} --- {{ grade.grade }} --- {{grade.date}}</p>
+        <a href="{% url 'update-grade' grade.pk %}">Редагувати Оцінку</a>
+        {% if request.user.portfolio.permission == "MODER" or request.user.portfolio.permission == "ADMIN" %}
+            <form method="post" action="{% url 'delete-grade' grade.pk %}" >
+                {% csrf_token %}
+                <button type="submit" onclick="return confirm('Ви впевнені, що хочете видалити цю оцінку?');">❌</button>
+            </form>
+        {% endif %}
+    </div>
 {% endfor %}
 {% endblock %}

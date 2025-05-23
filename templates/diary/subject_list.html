@@ -1,5 +1,12 @@
 {% extends 'base.html'%}
 {% block content%}
+{% if request.user.portfolio.permission == "MODER" or request.user.portfolio.permission == "ADMIN"%}
+<form method="post" action="{% url 'create-subject' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Зберегти</button>
+</form>
+{% endif %}
 {% for subject in subjects.all %}
 <div>
     <a href="{% url 'grades_by_subject' subject.pk %}">{{ subject.title }}</a>
