@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% include "forum/forum_redirect.html" %}
+<div class="thread-create-container">
+    <h2>Edit thread</h2>
+    <form method="post" enctype="multipart/form-data" class="thread-form">
+        {% csrf_token %}
+
+        <input type="text" name="title" value="{{ form.title.value|default:'' }}" placeholder="Назва треда" required class="thread-input" maxlength="300">
+        <div id="title-char-count" class="char-counter">300/300</div>
+
+        <textarea id="content" name="content" rows="5" placeholder="Опис або перше повідомлення…" class="thread-textarea">{{ form.content.value|default_if_none:'' }}</textarea>
+
+        <label class="custom-file-upload">
+            📎 Attach file
+            <input type="file" name="attachment">
+        </label>
+
+        <div class="thread-form-buttons">
+            <a href="{% url 'forum_main_page' %}" class="auth-btn danger">Refuse</a>
+            <button type="submit" class="auth-btn primary">Confirm changes</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

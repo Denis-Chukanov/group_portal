@@ -14,7 +14,7 @@
     <div class="uk-container">
     <h3>Name: {{ viewed_user.first_name }} {{ viewed_user.last_name }}</h3>
     <h3>Email: {{ viewed_user.email }}</h3>
-    <h3>Years old:{{ portfolio.years_old }} years</h3>
+    <h3>Years old: {{ portfolio.years_old }} years</h3>
     <p class="">{{ portfolio.description }}</p>
     </div>
     <a href="{% url 'user_gallery' viewed_user.username %}">User gallery</a>

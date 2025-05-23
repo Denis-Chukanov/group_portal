@@ -7,5 +7,6 @@ urlpatterns = [
     path('create-thread/', views.ThreadCreationView.as_view(), name='forum_creation_thread'),
     path('thread/<int:id>/', views.forum_thread_details, name='forum_thread_details'),
     path('thread/<int:id>/delete', views.forum_thread_delete, name='forum_confirm_delete'),
+    path('thread/<int:id>/edit', views.forum_thread_edit, name='forum_edit'),
     path("f/", views.forum_redirect, name='forum_redirect'),
 ]
