@@ -1,24 +1,42 @@
 {% load static %}
 
+<!DOCTYPE html>
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <title>Календар</title>
+
+  <!-- Подключение CSS -->
+  <link rel="stylesheet" href="{% static 'calendarapp/calendar.css' %}">
+
+  <!-- Flatpickr -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
+
   <div class="calendar-icon" onclick="toggleCalendar()">🗓️</div>
 
   <div class="calendar-popup" id="calendarPopup">
     <h3>Календар подій</h3>
-    <p>Раздел в разработке</p>
+    <input type="text" id="calendarInput" placeholder="Оберіть дату">
+    <button onclick="saveDate()">Зберегти дату</button>
   </div>
 
+  <div id="savedDates">
+    <h4>Обрані дати:</h4>
+    <ul id="dateList"></ul>
+  </div>
+
+  <!-- Flatpickr JS -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+  <!-- JS прямо здесь, но можно вынести при желании -->
   <script>
     function toggleCalendar() {
       const popup = document.getElementById("calendarPopup");
       popup.classList.toggle("active");
     }
 
-    
     window.addEventListener("click", function(e) {
       const popup = document.getElementById("calendarPopup");
       const icon = document.querySelector(".calendar-icon");
@@ -26,6 +44,27 @@
         popup.classList.remove("active");
       }
     });
+
+    const fp = flatpickr("#calendarInput", {
+      enableTime: true,
+      dateFormat: "Y-m-d H:i",
+      time_24hr: true,
+      locale: "ru"
+    });
+
+    function saveDate() {
+      const selectedDate = document.getElementById("calendarInput").value;
+      if (selectedDate) {
+        const list = document.getElementById("dateList");
+        const li = document.createElement("li");
+        li.textContent = selectedDate;
+        list.appendChild(li);
+        document.getElementById("calendarInput").value = '';
+      } else {
+        alert("Будь ласка, оберіть дату перед збереженням!");
+      }
+    }
   </script>
+
 </body>
 </html>
