@@ -1,5 +1,23 @@
 /* ========== Base Styles ========== */
 
+.content-for-all {
+    padding-left: 15%;
+}
+
+h1 {
+    margin-top: 0px;
+    margin-bottom: 3px;
+}
+
+h3 {
+    margin: 5px
+}
+
+p {
+    margin-top: 3px;
+    line-height: 1.6;
+}
+
 .no-transition {
     transition: none !important;
 }
@@ -69,7 +87,7 @@ body.dark {
 
 body.dark .auth-btn {
     background-color: #2879af;
-    color: white;
+    color: rgb(255, 255, 255);
 }
 
 .auth-btn:hover {
@@ -146,12 +164,6 @@ body.dark .auth-btn:active {
     height: 80vh; 
 }
 
-.auth-content {
-    padding-right: 15%;
-}
-
-
-
 /* ========== Button ========== */
 
 .btn {
@@ -163,7 +175,7 @@ body.dark .auth-btn:active {
     border: none;
     text-decoration: none;
     cursor: pointer;
-    width: 100px;
+    width: 130px;
 }
 
 .btn:hover {
@@ -287,12 +299,32 @@ body.dark .form-field label {
     background-color: white;
 }
 
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+    outline: none;
+}
+
 body.dark .form-field input,
 body.dark .form-field select,
 body.dark .form-field textarea {
-    background-color: #2a2a3a;
-    color: #f1f5f9;
-    border: 1px solid #444;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: border 0.2s, box-shadow 0.2s;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: rgba(10, 10, 18, 0.354);
+}
+
+body.dark .form-field input:focus,
+body.dark .form-field select:focus,
+body.dark .form-field textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+    outline: none;
 }
 
 .form-messages .message {
@@ -335,7 +367,7 @@ body.dark .form-title {
 
 .form-wrapper {
     max-width: 600px;
-    margin: 50px auto;
+    margin: 0 auto 30px auto;
     background: #fff;
     padding: 30px;
     border-radius: 12px;
@@ -362,18 +394,12 @@ body.dark .form-wrapper {
 
 /* ========== Forum ========== */
 
-h1 {
-    margin-top: 0px;
-    margin-bottom: 3px;
+.forum-content {
+    padding-left: 5%;
 }
 
-h3 {
-    margin: 5px
-}
-
-p {
-    margin-top: 3px;
-    line-height: 1.6;
+.forum-title-content {
+    padding-left: 12%;
 }
 
 .thread-title {
@@ -386,9 +412,10 @@ body.dark .thread-title {
 }
 
 .thread-create-container {
-    max-width: 700px;
-    padding: 20px;
+    max-width: 800px;
+    margin: 40px auto;
     background-color: transparent;
+    position: relative;
     border-radius: 10px;
 }
 
@@ -434,16 +461,8 @@ body.dark .thread-title {
     justify-content: flex-end;
 }
 
-.custom-file-upload:hover {
-    background-color: #666;
-}
-
-.custom-file-upload input[type="file"] {
-    display: none;
-}
-
 .char-counter {
-    font-size: 0.9em;
+    font-size: 14px;
     color: #666;
     margin-top: 4px;
     text-align: right;
@@ -453,6 +472,7 @@ body.dark .thread-title {
     padding: 30px;
     display:inline-block;
     width: 75%;
+    padding-left: 15%;
 }
 
 .forum-descritpion {
@@ -468,19 +488,19 @@ body.dark .thread-title {
 }
 
 .forum-reply-box {
-    margin-top: 2rem;
-    padding: 1rem;
+    margin-top: 32px;
+    padding: 16px;
     background-color: transparent;
     border: 1px solid #e2e8f0;
-    border-radius: 0.5rem;
-    width: 50%;
+    border-radius: 8px;
+    width: 40%;
 }
 
 .forum-threads-box {
-    margin-top: 2rem;
-    padding: 1rem;
+    margin-top: 32px;
+    padding: 16px;
     background-color: transparent;
-    border-radius: 0.5rem;
+    border-radius: 8px;
     width: 50%;
 }
 
@@ -491,7 +511,7 @@ body.dark .thread-title {
 .reply-form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 16px;
 }
   
 .reply-textarea {
@@ -521,6 +541,10 @@ body.dark .thread-title {
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.2s;
+}
+
+.reply-form {
+    display: none;
 }
 
 .reply-button:disabled {
@@ -622,7 +646,7 @@ body.dark .created-comment-time {
     text-align: center;
     margin-top: 1.5rem;
 }
-btn
+
 .btn-save {
     background-color: #007bff;
     color: white;
@@ -651,13 +675,14 @@ btn
     list-style: none;
     padding-left: 15px;
     margin: 0;
+    border-left: 3px solid #3e4937;
 }
 
 .reply-form {
     display: none;
     margin-top: 10px;
     padding-left: 25px;
-    border-left: 3px solid #879a7c;
+    border-left: 3px solid #7e9272;
 }
 
 .reply-toggle {
@@ -676,10 +701,8 @@ btn
 
 .main-content {
     min-height: 100%;
-    margin-left: 125px;
     transition: margin-left 0.3s ease;
     padding-top: 3%;
-    padding-left: 15%;
 }
 
 /* ========== Sidebar ========== */
@@ -711,7 +734,7 @@ btn
 }
 
 .sidebar.collapsed ~ .main-content {
-    margin-left: 60px;
+    margin-left: 0px;
     transition: margin-left 0.3s ease;
 }
 
@@ -857,6 +880,53 @@ label:has(input[required])::after {
 
 /* ========== Gallery ========== */
 
+.images-container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.image-info {
+    padding: 10px 15px;
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+}
+
+.image-info h3 {
+    margin: 0 0 8px;
+    font-size: 1.1em;
+}
+
+.image-info p {
+    margin: 0;
+    font-size: 0.95em;
+    color: #ccc;
+}
+
+.approval-status {
+    margin-top: 8px;
+    font-size: 0.85em;
+    color: orange;
+}
+
+.upload-form {
+    margin-bottom: 30px;
+}
+
+.moderation-link {
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
 .gallery-container {
     max-width: 400px;
     padding: 20px;
@@ -864,6 +934,10 @@ label:has(input[required])::after {
     border-radius: 10px;
 }
 
+.gallery-title {
+    font-size: 2em;
+    text-align: center;
+}
 
 .gallery-grid {
     display: grid;
@@ -871,7 +945,6 @@ label:has(input[required])::after {
     gap: 20px;
     padding: 20px;
     box-sizing: border-box;
-
 }
 
 .gallery-item {
@@ -879,12 +952,12 @@ label:has(input[required])::after {
     overflow: hidden;
     border-radius: 10px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
 
 .gallery-item img {
     width: 100%;
-    height: 100%;
+    height: 100%    ;
     object-fit: cover;
     transition: transform 0.3s ease; 
 }
@@ -907,44 +980,181 @@ label:has(input[required])::after {
     color: red;
 }
 
+.empty-message {
+    text-align: center;
+    font-style: italic;
+    margin-top: 30px;
+    color: #777;
+}
+
+.upload-form {
+    max-width: 600px;
+    margin: 0 auto 30px auto;
+    background: #e9e9eb;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+}
+
+.upload-form:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background-color: #3d85d8;
+    color: white;
+    padding: 15px 20px;
+    font-size: 1.3em;
+    border-bottom: 1px solid #0056b3;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-footer {
+    padding: 15px 20px;
+    background-color: #ededf0;
+    text-align: right;
+    border-top: 1px solid #ddd;
+}
+
+body.dark .upload-form {
+    max-width: 600px;
+    margin: 0 auto 30px auto;
+    background: #1e1e2e;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+}
+
+body.dark .upload-form:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+body.dark .card-header {
+    background-color: #12273e;
+    color: white;
+    padding: 15px 20px;
+    font-size: 1.3em;
+    border-bottom: 1px solid #0056b3;
+}
+
+body.dark .card-body {
+    padding: 20px;
+}
+
+body.dark .card-footer {
+    padding: 15px 20px;
+    background: #1e1e2e;
+    text-align: right;
+    border-top: 1px solid #ddd;
+}
+
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 9999;
-    padding-top: 60px;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.9);
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  justify-content: center;
+  align-items: center;
+  
 }
 
 .modal-content {
-    margin: auto;
-    display: block;
-    max-width: 90%;
-    max-height: 80vh;
-    border-radius: 10px;
-    box-shadow: 0 0 30px black;
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 90%;
+  max-height: 90%;
+  overflow: auto;
+  text-align: center;
+  color: #f1f1f1;
+  border: 1px solid #d81616;
 }
 
-.close {
-    position: absolute;
-    top: 20px;
-    right: 40px;
-    color: #fff;
-    font-size: 40px;
-    font-weight: bold;
-    cursor: pointer;
+.modal-content img {
+  max-width: 100%;
+  max-height: 60vh;
+  border-radius: 10px;
+  margin-bottom: 15px;
 }
 
-.flex {
+.modal-text h3 {
+  margin-bottom: 8px;
+}
+
+.modal-text p {
+  margin: 0;
+  font-size: 0.95em;
+  color: #ccc;
+}
+
+/* ========== Profile ========== */
+
+
+.profile-card {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #1f1f1f;
+    color: #f0f0f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.profile-title {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #444;
+    padding-bottom: 10px;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.profile-field {
+    font-size: 1em;
+    background: #2a2a2a;
+    padding: 10px 15px;
+    border-radius: 8px;
+}
+
+.profile-description {
+    font-style: italic;
+    color: #ccc;
+    margin-bottom: 20px;
+}
+
+.profile-button {
+    display: inline-block;
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.profile-button:hover {
+    background-color: #2980b9;
+}
+
+.profile-links,
+.profile-actions {
     display: flex;
-}
-
-.width-70 {
-    width: 60%;
-}
-
-.width-30 {
-    width: 30% !important;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
 }

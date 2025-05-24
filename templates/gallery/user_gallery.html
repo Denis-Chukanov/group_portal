@@ -1,23 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>Gallery of {{ viewed_user.username }}</h1>
+<div class="images-container">
+    <h1 class="gallery-title">Gallery of {{ viewed_user.username }}</h1>
+    
     {% if request.user.portfolio.permission == "MODER" %}
-        <a href="{% url 'validate_images' request.user.pk %}" class="btn btn-primary" style="margin-bottom: 15px;">
-            Перейти к модерации изображений
+        <a href="{% url 'validate_images' request.user.pk %}" class="btn btn-primary moderation-link">
+            🛠️ Go to Image Moderation
         </a>
     {% endif %}
     <div class="gallery-grid">
-    {% for image in images %}
-        <div class="gallery-item {% if not image.is_approved %}unapproved{% endif %}">
-            <img src="{{ image.image.url }}" alt="{{ image.title }}">
-            <h3>{{ image.title }}</h3>
-            <p>{{ image.content }}</p>
-            {% if not image.is_approved %}
-                <p class="approval-status">Wait for approve</p>
-            {% endif %}
-        </div>
-    {% empty %}
-        <p>This user has not uploaded anything yet.</p>
-    {% endfor %}
+        {% for image in images %}
+            <div class="gallery-item {% if not image.is_approved %}unapproved{% endif %}">
+                <img src="{{ image.image.url }}" alt="{{ image.title }}">
+                <div class="image-info">
+                    <h3>{{ image.title }}</h3>
+                    <p>{{ image.content }}</p>
+                    {% if not image.is_approved %}
+                        <p class="approval-status">⏳ Waiting for approval</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <p class="empty-message">This user has not uploaded anything yet.</p>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

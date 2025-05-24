@@ -46,7 +46,7 @@
             sidebar.classList.add("collapsed");
             mainContent.style.marginLeft = "0px";
         } else {
-            mainContent.style.marginLeft = "125px";
+            mainContent.style.marginLeft = "60px";
         }
     
         setTimeout(() => {
@@ -64,7 +64,7 @@
         if (sidebar.classList.contains("collapsed")) {
             mainContent.style.marginLeft = "0px";
         } else {
-            mainContent.style.marginLeft = "125px";
+            mainContent.style.marginLeft = "60px";
         }
     
         localStorage.setItem("sidebarCollapsed", sidebar.classList.contains("collapsed"));
@@ -130,6 +130,26 @@
         };
     });
 
+    function openModal(imageUrl, title, content, isApproved) {
+    document.getElementById('modalImage').src = imageUrl;
+    document.getElementById('modalTitle').textContent = title || '(No Title)';
+    document.getElementById('modalContent').textContent = content || '(No Content)';
+    document.getElementById('modalStatus').textContent = (isApproved === 'False') ? '⏳ Waiting for approval' : '';
+    document.getElementById('imageModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+    document.getElementById('imageModal').style.display = 'none';
+    }
+
+    function toggleReplyForm(postId) {
+    const form = document.getElementById(`reply-form-${postId}`);
+        if (form.style.display === "none" || form.style.display === "") {
+            form.style.display = "block";
+        } else {
+            form.style.display = "none";
+        }
+    }
     
     function wrapText(before, after) {
         const textarea = document.getElementById('content');
