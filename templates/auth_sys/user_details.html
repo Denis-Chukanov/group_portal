@@ -2,6 +2,7 @@
 
 {% block content %}
 {% load static %}
+<div class="content-for-all">
 <div class="auth-content">
     <div class="flex">
         {% if portfolio.image.url is not None %}
@@ -11,12 +12,22 @@
         {% endif %}
         <h1>{{ viewed_user.username }}</h1>
     </div>
-    <div class="uk-container">
-    <h3>Name: {{ viewed_user.first_name }} {{ viewed_user.last_name }}</h3>
-    <h3>Email: {{ viewed_user.email }}</h3>
-    <h3>Years old:{{ portfolio.years_old }} years</h3>
-    <p class="">{{ portfolio.description }}</p>
+    <div class="profile-card">
+    <h2 class="profile-title">👤 User Profile</h2>
+    <div class="profile-grid">
+        <div class="profile-field">
+            <strong>Name:</strong> {{ viewed_user.first_name }} {{ viewed_user.last_name }}
+        </div>
+        <div class="profile-field">
+            <strong>Email:</strong> {{ viewed_user.email }}
+        </div>
+        <div class="profile-field">
+            <strong>Years old:</strong> {{ portfolio.years_old }} years
+        </div>
     </div>
-    <a href="{% url 'user_gallery' viewed_user.username %}">User gallery</a>
+    <p class="profile-description">{{ portfolio.description }}</p>
+    <a href="{% url 'user_gallery' viewed_user.username %}" class="profile-button">📷 View User Gallery</a>
+</div>
+</div>
 </div>
 {% endblock %}

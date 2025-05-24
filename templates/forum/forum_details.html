@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load markdownify %}
+{% load markdown_extras %}
 {% block content %}
 {% include "forum/forum_redirect.html" %}
    <div class="forum-main-content">
@@ -16,14 +17,12 @@
         {% endwith %}
         <a href="{% url 'user_details' pk=thread.created_by.id %}">{{ thread.created_by }}</a>
         <div class="created-time" > • {{ thread.created_at|timesince }} ago</div>
-        {% if thread.created_by%}
-        <a href="{% url 'forum_confirm_delete' thread.id %}" class="text-red hover:text-red" style="margin-left: auto;">🗑 Видалити треад</a>
-        {% else %}
-        {% endif %}
+        <span><a href="{% url 'forum_edit' thread.id %}" class="text-orange hover:text-orange" style="margin-left: 30px;">Edit</a>
+        <a href="{% url 'forum_confirm_delete' thread.id %}" class="text-red hover:text-red" style="margin-left: 5px;">🗑 Delete thread</a></span>
       </div>
       <div class="forum-descritpion">
-        <h1>{{ thread.title }}</h1>
-        <div class="formatted-content">{{ thread.content|markdownify }}</div>
+        <h1>{{ thread.title|linebreaks }}</h1>
+        <div class="formatted-content">{{ thread.content|markdownify|linebreaks }}</div>
           {% if thread.attachment %}
             {% with thread.attachment.url|lower as file_url %}
                 {% if ".jpg" in file_url or ".jpeg" in file_url or ".png" in file_url or ".gif" in file_url %}
@@ -43,25 +42,23 @@
             {{ form.content }}
           </div>
           
-          <div class="custom-file-upload">  
+          <label class="custom-file-upload">  
+            📎 Attach file
             {{ form.attachment.errors }}
             <input type="file" name="attachment">
-            📎 Прикріпити файл
-          </div>
+          </label>
           {{ form.parent }} 
-          <button type="submit" class="reply-submit">Відправити</button>
+          <button type="submit" class="btn btn-secondary">Send</button>
         </form>
       </div>
     {% else %}
       <p>
-        <a href="{% url 'login' %}" class="login-link">Увійдіть</a>, щоб залишити відповідь.
+        <a href="{% url 'login' %}" class="login-link">Sign-in</a>, to leave a reply.
       </p>
     {% endif %}
     <div>
       <h2>Коментарі:</h2>
-      <div class="space-y-4">
         {% include 'forum/forum_post_tree.html' with posts=all_posts parent=None form=form %}
-      </div>
     </div>
 
   </div>

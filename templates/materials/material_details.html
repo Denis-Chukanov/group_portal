@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load markdownify %}
+{% load markdown_extras %}
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/materials/style.css' %}">
 {% endblock %}
@@ -11,7 +13,7 @@
     <small>{{ material.subject.owner.first_name }} {{ material.subject.owner.last_name }} {{ material.changed_at }}</small>
 </div>
 <div class="empty"></div>
-<p>{{ material.description }}</p>
+<p>{{ material.description|markdownify|linebreaks }}</p>
 <div class="empty"></div>
 
 <div>
@@ -26,20 +28,25 @@
         {% else %}
             <div class="investment">
                 <img class="filetype" src="{% static 'img/url.png' %}">
-                <a href="{% url 'investment_details' pk=investment.pk %}">{{ investment.get_domen }}</a>
+                <div class="investment-text">
+                    <a href="{% url 'investment_details' pk=investment.pk %}">{{ investment.get_domen }}</a>
+                </div>
             </div>
         {% endif %}
     {% else %}
         <div class="investment">
             <img class="filetype" src="{{ investment.get_image }}">
-            <a href="{% url 'investment_details' pk=investment.pk %}">{{ investment.get_filename }}</a>
+            <div class="investment-text">
+                <a href="{% url 'investment_details' pk=investment.pk %}">{{ investment.get_filename }}</a>
+            </div>
         </div>
     {% endif %}
 {% endfor %}
 </div>
+<a href="{% url 'material_update' material.pk %}" class="text-small blue">Update</a>
 <hr>
 <div class="">
-    <form class="comment-body" method="post" action="{% url 'material_details' pk=material.pk %}">
+    <form class="comment-body" method="post">
         {% csrf_token %}
         {% for field in comment_form %}
             {{ field }}
@@ -52,7 +59,7 @@
                 <h6>{{ comment.author.username }}</h6>
                 <h6>{{ comment.created_at }}</h6>
             </div>
-            <p>{{ comment.content }}</p>
+            <p>{{ comment.content|linebreaks }}</p>
             <a href="{% url 'comment_update' pk=comment.pk %}?page=1" class="comment-button">Edit</a>
             <a href="{% url 'comment_delete' pk=comment.pk %}?page=1" class="comment-button">Delete</a>
         </div>

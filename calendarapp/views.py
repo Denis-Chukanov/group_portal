@@ -1,16 +1,8 @@
 from django.shortcuts import render
-from django.http import JsonResponse
-from .models import Event
+from django.http import HttpResponse
 
-def event_calendar(request):
-    return render(request, 'calendarapp/event_calendar.html')
-
-def event_data(request):
-    events = Event.objects.all()
-    data = []
-    for event in events:
-        data.append({
-            'title': event.title,
-            'start': event.date.isoformat(),
-        })
-    return JsonResponse(data, safe=False)
+def calendar_popup_view(request):
+    if request.method == 'POST':
+        selected_date = request.POST.get('selected_date')
+        return HttpResponse(f"Вы выбрали дату: {selected_date}")
+    return render(request, 'calendarapp/popup_calendar.html')

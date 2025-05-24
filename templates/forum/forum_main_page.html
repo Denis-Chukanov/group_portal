@@ -2,13 +2,13 @@
 {% load static %}   
 {% block content %}
 {% include "forum/forum_redirect.html" %}
+<div class="forum-content">
 <div class="forum-main-content">
     {% if request.user.is_authenticated %}
         <div class="create-container">
             <a href="{% url 'forum_creation_thread' %}" class="btn"><span style="font-size: 26px">+</span> Create</a>
         </div>
         <hr>
-        <h2>Темы:</h2>
         {% for thread in threads %}
         <a href="{% url 'forum_thread_details' thread.id %}">  
             <div class="forum-threads-box"> 
@@ -34,19 +34,20 @@
         </div>
         </a>
         {% empty %}
-            Тем пока нет. Будь первым!
+            There is no threads yet. Be the first!
         {% endfor %}
     {% else %}
-        <h3><a href="{% url 'user_login_menu' %}">Зарегистрируйтесь что бы создать трэд!<a/></h3>
+        <h3><a href="{% url 'user_login_menu' %}">Register to create a thread!<a/></h3>
         <hr>
-        <h2>Темы:</h2>
+        <h2>Threads:</h2>
         <ul>
             {% for thread in threads %}
                 <li><a href="{% url 'forum_thread_details' thread.id %}">{{ thread.title }}</a> <span class="created-time"> • {{ thread.created_at|timesince }} ago</span></li>
             {% empty %}
-                <li>Тем пока нет. Будь первым!</li>
+                <li>There is no threads yet. Be the first!!</li>
             {% endfor %}
         </ul>
     {% endif %}
+</div>
 </div>
 {% endblock %}

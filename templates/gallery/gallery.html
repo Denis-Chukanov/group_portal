@@ -1,30 +1,61 @@
 {% extends 'base.html' %}
-
 {% block content %}
-    <h1>Your Gallery</h1>
-    <form method="POST" enctype="multipart/form-data">
+<div class="images-container">
+    <h1 class="gallery-title">Your Gallery</h1>
+
+    <form method="POST" enctype="multipart/form-data" class="upload-form card">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Upload Image</button>
+        <div class="card-header">
+            <h2>📷 Upload New Image</h2>
+        </div>
+        <div class="card-body">
+            {% for field in form %}
+                <div class="form-field">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="error">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn">⬆️ Upload</button>
+        </div>
     </form>
     <hr>
     <div class="gallery-grid">
         {% for image in images %}
-            <div class="gallery-item">
+            <div class="gallery-item" onclick="openModal('{{ image.image.url }}', '{{ image.title|escapejs }}', '{{ image.content|escapejs }}', '{{ image.is_approved }}')">
                 {% if image.image %}
                     <img src="{{ image.image.url }}" alt="{{ image.title }}">
                 {% else %}
-                    <p><em>Нет изображения</em></p>
+                    <p><em>No image</em></p>
                 {% endif %}
-                <h3>{{ image.title }}</h3>
-                <p>{{ image.content }}</p>
+                <div class="image-info">
+                    <h3>{{ image.title }}</h3>
+                    <p>{{ image.content }}</p>
+                    {% if not image.is_approved and image.created_by == request.user %}
+                    <p class="approval-status">⏳ Waiting for approval</p>
+                    {% endif %}
+                </div>
             </div>
         {% empty %}
-            <p>No images uploaded yet.</p>
+            <p class="empty-message">No images uploaded yet.</p>
         {% endfor %}
     </div>
-    <div id="imageModal" class="modal">
-        <span class="close">&times;</span>
-        <img class="modal-content" id="modalImage">
+</div>
+
+
+
+<div id="imageModal" class="modal" onclick="closeModal()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <img id="modalImage" src="" alt="Large image">
+    <div class="modal-text">
+      <h3 id="modalTitle"></h3>
+      <p id="modalContent"></p>
+      <p id="modalStatus" class="approval-status"></p>
     </div>
+  </div>
+</div>
 {% endblock %}

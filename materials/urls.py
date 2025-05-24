@@ -21,5 +21,8 @@ urlpatterns = [
          name="subject_create"),
     path("create/", views.material_create, name="material_create"),
     path("create/<int:pk>/investments/", views.investsments_create,
-         name="investment_create")
+         name="investment_create"),
+    path("investment/<int:pk>/delete/", views.investsment_delete,
+         name="investsment_delete"),
+    path("<int:pk>/update/", views.material_update, name="material_update"),
 ]

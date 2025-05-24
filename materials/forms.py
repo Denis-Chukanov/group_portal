@@ -11,7 +11,7 @@ class CommentForm(ModelForm):
         super(CommentForm, self).__init__(*args, **kwargs)
         content_field = self.fields["content"].widget.attrs
         content_field.update({"rows": 4, "cols": 50,
-                              "class": "comment-content", })
+                              "class": "content", })
 
 
 class SubjectForm(ModelForm):
@@ -24,3 +24,9 @@ class MaterialForm(ModelForm):
     class Meta:
         model = models.Material
         fields = ("name", "description", "subject", )
+
+    def __init__(self, *args, **kwargs):
+        super(MaterialForm, self).__init__(*args, **kwargs)
+        description_field = self.fields["description"].widget.attrs
+        description_field.update({"class": "content",
+                                  "id": "content"})

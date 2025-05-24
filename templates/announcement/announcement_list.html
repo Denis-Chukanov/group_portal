@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 {% block content%}
+<div class="content-for-all">
+<p>{{request.user.portfolio.permission }}</p>
+{% if request.user.portfolio.permission == "MODER" or request.user.portfolio.permission == "ADMIN"%}
+    <a href="{% url 'announcement-create'%}">Створити Оголошення</a>
+{% endif %}
 {% for announcement in announcements.all %}
     <h1>{{announcement.title}}</h1>
     <p>{{announcement.content}}</p>
 {% endfor %}
-{% endblock%}
+</div>
+{% endblock %}

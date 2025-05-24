@@ -1,5 +1,4 @@
 <html lang="en">
-{% include 'calendarapp/event_calendar.html' %}
 
 <head>
     <meta charset="UTF-8">
@@ -8,10 +7,12 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <link rel="icon" type="image/png" href="{% static 'img/icon.png' %}">
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     {% block css %}{% endblock %}
 </head>
 <body>
+    {% include 'calendarapp/event_calendar.html' %}
     {% include "sidebar.html" %}
     <div class="main-content" id="main-content">
         {% block content %}
@@ -45,7 +46,7 @@
             sidebar.classList.add("collapsed");
             mainContent.style.marginLeft = "0px";
         } else {
-            mainContent.style.marginLeft = "125px";
+            mainContent.style.marginLeft = "60px";
         }
     
         setTimeout(() => {
@@ -63,7 +64,7 @@
         if (sidebar.classList.contains("collapsed")) {
             mainContent.style.marginLeft = "0px";
         } else {
-            mainContent.style.marginLeft = "125px";
+            mainContent.style.marginLeft = "60px";
         }
     
         localStorage.setItem("sidebarCollapsed", sidebar.classList.contains("collapsed"));
@@ -95,12 +96,15 @@
 
     const titleInput = document.getElementById('title');
     const titleCounter = document.getElementById('title-char-count');
-    const titleMaxLength = titleInput.maxLength;
-  
-    titleInput.addEventListener('input', () => {
-      const remaining = titleMaxLength - titleInput.value.length;
-      titleCounter.textContent = ` ${remaining}/300`;
-    });
+
+    if (titleInput && titleCounter) {
+        const titleMaxLength = titleInput.maxLength;
+
+        titleInput.addEventListener('input', () => {
+            const remaining = titleMaxLength - titleInput.value.length;
+            titleCounter.textContent = ` ${remaining}/300`;
+        });
+    }
 
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -126,6 +130,26 @@
         };
     });
 
+    function openModal(imageUrl, title, content, isApproved) {
+    document.getElementById('modalImage').src = imageUrl;
+    document.getElementById('modalTitle').textContent = title || '(No Title)';
+    document.getElementById('modalContent').textContent = content || '(No Content)';
+    document.getElementById('modalStatus').textContent = (isApproved === 'False') ? '⏳ Waiting for approval' : '';
+    document.getElementById('imageModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+    document.getElementById('imageModal').style.display = 'none';
+    }
+
+    function toggleReplyForm(postId) {
+    const form = document.getElementById(`reply-form-${postId}`);
+        if (form.style.display === "none" || form.style.display === "") {
+            form.style.display = "block";
+        } else {
+            form.style.display = "none";
+        }
+    }
     
     function wrapText(before, after) {
         const textarea = document.getElementById('content');
@@ -143,9 +167,9 @@
         spellChecker: false,
         status: false,
         toolbar: [
-          "bold", "italic", "strikethrough", "heading", "|",
+          "bold", "italic", "heading", "|",
           "unordered-list", "ordered-list", "|",
-          "link", "preview", "guide"
+          "link"
         ],
     });
 
