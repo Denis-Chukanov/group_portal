@@ -2,6 +2,7 @@
 
 {% block content %}
 {% load static %}
+<div class="content-for-all">
 <div class="auth-content">
     <div class="flex">
         {% if portfolio.image.url is not None %}
@@ -11,15 +12,32 @@
         {% endif %}
         <h1>{{ user.username }}</h1>
     </div>
-    <h3>Name: {{ user.first_name }} {{ user.last_name }}</h3>
-    <h3>Email: {{ user.email }}</h3>
-    <h3>Years old:{{ portfolio.years_old }} years</h3>
-    <p class="">{{ portfolio.description }}</p></div>
-    <a href="{% url 'logout' %}">🔐 Logout</a>
-    <a href="{% url 'gallery' %}">Gallery</a>
-    <div style="margin-top:40px; gap: 10px">
-    <a class="auth-btn update" href="{% url 'user_update' %}">Update</a>
-    <a class="auth-btn danger" href="{% url 'user_delete' %}">Delete</a>
+    <div class="profile-card">
+    <h2 class="profile-title">👤 My Profile</h2>
+    <div class="profile-grid">
+        <div class="profile-field">
+            <strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}
+        </div>
+        <div class="profile-field">
+            <strong>Email:</strong> {{ user.email }}
+        </div>
+        <div class="profile-field">
+            <strong>Years old:</strong> {{ portfolio.years_old }} years
+        </div>
     </div>
+        <p class="profile-description">{{ portfolio.description }}</p>
+
+        <div class="profile-links">
+            <a href="{% url 'logout' %}" class="profile-button danger">🔐 Logout</a>
+            <a href="{% url 'gallery' %}" class="profile-button">🖼️ Gallery</a>
+        </div>
+
+        <div class="profile-actions">
+            <a class="auth-btn update" href="{% url 'user_update' %}">✏️ Update</a>
+            <a class="auth-btn danger" href="{% url 'user_delete' %}">🗑️ Delete</a>
+        </div>
+    </div>
+    </div>
+</div>
 </div>
 {% endblock %}

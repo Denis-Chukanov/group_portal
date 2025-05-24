@@ -17,11 +17,8 @@
         {% endwith %}
         <a href="{% url 'user_details' pk=thread.created_by.id %}">{{ thread.created_by }}</a>
         <div class="created-time" > • {{ thread.created_at|timesince }} ago</div>
-        {% if thread.created_by%}
-        <span><a href="{% url 'forum_edit' thread.id %}" class="text-orange hover:text-orange" style="margin-left: auto;">Edit</a>
-        <a href="{% url 'forum_confirm_delete' thread.id %}" class="text-red hover:text-red" style="margin-left: auto;">🗑 Delete thread</a></span>
-        {% else %}
-        {% endif %}
+        <span><a href="{% url 'forum_edit' thread.id %}" class="text-orange hover:text-orange" style="margin-left: 30px;">Edit</a>
+        <a href="{% url 'forum_confirm_delete' thread.id %}" class="text-red hover:text-red" style="margin-left: 5px;">🗑 Delete thread</a></span>
       </div>
       <div class="forum-descritpion">
         <h1>{{ thread.title|linebreaks }}</h1>
@@ -61,9 +58,7 @@
     {% endif %}
     <div>
       <h2>Коментарі:</h2>
-      <div class="space-y-4">
         {% include 'forum/forum_post_tree.html' with posts=all_posts parent=None form=form %}
-      </div>
     </div>
 
   </div>
